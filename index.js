@@ -1,44 +1,38 @@
-const fs = require('fs');
-const Discord = require('discord.js');
-const {prefix, token} = require('./config.json');
+const config = require("./config.json");
+const Discord = require("discord.js");
+const mysql = require("mysql");
 
-const client = new Discord.Client({disableEveryone: false});
-client.commands = new Discord.Collection();
+const commands = require("./commands.json");
 
-const commandFolders = fs.readdirSync('./commands');
+const bot = new Discord.Client();
 
-for (const folder of commandFolders) {
-    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
-    for (const file of commandFiles) {
-        const command = require(`./commands/${folder}/${file}`);
-        client.commands.set(command.name, command);
-    }
-}
-
-client.once('ready', () => {
-    console.log('Ready!');
+bot.once("ready", () => {
+    console.log("meanBot is ready!");
 });
 
-client.on('message', message => {
-    if(!message.content.startsWith(prefix) || message.author.bot) return;
-
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
-
-    if (!client.commands.has(commandName)) return;
-
-    const command = client.commands.get(commandName);
-
-    if (command.args && !args.length) {
-        return message.channel.send(`You didn't provide any arguments, ${message.author}`);
+bot.on("message", (message) => {
+    if (message.channel.type != "text") {
+      return;
     }
-
-    try {
-        command.execute(message, args)
-    } catch(error) {
-        console.error(error);
-        message.reply('there was an error trying to execute that command!');
+  
+    if (message.content.indexOf(config.prefix) !== 0 || message.author.bot) {
+      return;
+    }
+    const command = message.content.split(" ");
+    const args = command.slice(1, command.length).join(" ");
+    const commandName = command[0].toLowerCase().slice(config.prefix.length);
+  
+    if (commandName in commands) {
+      if (commands[commandName].type === "dm") {
+        return;
+      }
+      let action = require("./commands/" + commands[commandName].action);
+      action.run(message, args, bot, commands[commandName].extra);
     }
 });
 
-client.login(token);
+bot.login(config.token);
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+});

@@ -1,9 +1,19 @@
 {
-    "name" : "meanBot",
-    "description" : "A discord bot built for the Project1999 Green guild Seal Team",
-    "keywords": ["discord", "bot", "nodejs"],
+    "name": "meanBot",
+    "description": "A discord bot built for the Project1999 Green guild Seal Team",
+    "keywords": [
+        "discord",
+        "bot",
+        "nodejs"
+    ],
     "author": "Christian Kirby <christian.h.kirby@gmail.com>",
-    "repository": {"type": "git", "url": "https://github.com/ckirby5/meanBot"},
-    "main" : "index.js",
-    "version" : "0.0.0"
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ckirby5/meanBot"
+    },
+    "version": "0.0.0",
+    "dependencies": {
+        "discord.js": "12.*",
+        "mysql": "^2.18.1"
+    }
 }

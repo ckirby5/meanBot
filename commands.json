@@ -1,0 +1,17 @@
+{
+    "8ball": {
+        "action": "fun/8ball",
+        "permissions": "all",
+        "type": "both"
+    },
+    "bp": {
+        "action": "phones/batphone",
+        "permissions": "all",
+        "type": "both"
+    },
+    "sp": {
+        "action": "phones/sockphone",
+        "permissions": "all",
+        "type": "both"
+    }
+}
