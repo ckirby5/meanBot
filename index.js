@@ -6,6 +6,26 @@ const commands = require("./commands.json");
 
 const bot = new Discord.Client();
 
+let pool;
+
+const db = mysql.createConnection({
+  host: config.mysqlHost,
+  user: config.mysqlUser,
+  password: config.mysqlPass,
+  database: config.mysqlDB,
+  timezone: config.mysqlTimeZone,
+  charset: "utf8mb4",
+
+});
+
+db.connect(function(err){
+  if (err) throw err;
+  db.query("SELECT * FROM tods", function(err, result, fields){
+    if (err) throw err;
+    console.log(result);
+  })
+});
+
 bot.once("ready", () => {
     console.log("meanBot is ready!");
 });
