@@ -43,7 +43,10 @@ exports.run = function(message, args, bot, db) {
                                             value: "<@" + message.author.id + ">"
                                         }
                                     ],
-                                    timestamp: new Date()
+                                    timestamp: new Date(),
+                                    footer: {
+                                        text: "Thank you for keeping Seal Team up to date!"
+                                    }
                                 }
                             });
                         }
