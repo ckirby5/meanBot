@@ -26,10 +26,24 @@ exports.run = function(message, args, bot, db) {
                         if(result.affectedRows == 1) {
                             bot.channels.cache.get('842187750068191243').send("", {
                                 embed: {
-                                    title: "Mob Info Updated for: ",
-                                    description:
-                                    rows[0].name + " \nNew Time of Death is: " +
-                                    moment(tod).format('LLL')
+                                    color: "#0099ff",
+                                    title: "Mob Info Updated",
+                                    author: {
+                                        name: 'MeanBot',
+                                        icon_url: 'https://i.imgur.com/HcURdiB.jpg'
+                                    },
+                                    description: rows[0].name,
+                                    fields: [
+                                        {
+                                            name: "New Time of Death",
+                                            value: moment(tod).format('LLL')
+                                        },
+                                        {
+                                            name: "Updated By",
+                                            value: "<@" + message.author.id + ">"
+                                        }
+                                    ],
+                                    timestamp: new Date()
                                 }
                             });
                         }

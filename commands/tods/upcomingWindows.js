@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 const moment = require("moment");
 
-exports.run = function(bot, db) {
+exports.run = function(bot, db, message) {
     const timeStamp = moment().add(24, 'hours');
         db.query("SELECT * FROM meanBot.tods WHERE windowStart <= ? AND windowStart > ?", [timeStamp.toDate(), new Date()],
         function(err, rows){
@@ -10,12 +10,13 @@ exports.run = function(bot, db) {
             if (err) {
                 console.error("Invalid: " + err);
             }
-                bot.channels.cache.get('833859329589379095').send("", {
+                bot.channels.cache.get('847362765203308614').send("", {
                     embed: {
                         color: "#0099ff",
                         title: "Mobs Entering Window: \n",
                         author: {
-                            name: 'meanBot',
+                            name: 'MeanBot',
+                            icon_url: 'https://i.imgur.com/HcURdiB.jpg'
                         },
                         description: "Less than 24 hours:",
                         fields: [
@@ -29,11 +30,11 @@ exports.run = function(bot, db) {
                             }
                         ],
                         image: {
-                            url: 'https://i.imgur.com/wSTFkRM.png'
+                            url: 'https://i.imgur.com/HcURdiB.jpg'
                         },
                         timestamp: new Date(),
                         footer: {
-                            text: "These are entering window soon! Be prepared!"
+                            text: "\nThese are entering window soon! Be prepared!"
                         }
 
                     }
