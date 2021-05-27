@@ -13,5 +13,15 @@
         "action": "phones/sockphone",
         "permissions": "all",
         "type": "both"
+    },
+    "window": {
+        "action": "tods/window",
+        "permissions": "all",
+        "type": "both"
+    },
+    "tod": {
+        "action": "tods/tod",
+        "permissions": "all",
+        "type": "both"
     }
 }

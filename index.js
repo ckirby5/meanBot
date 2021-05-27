@@ -13,8 +13,7 @@ const db = mysql.createConnection({
   user: config.mysqlUser,
   password: config.mysqlPass,
   database: config.mysqlDB,
-  timezone: config.mysqlTimeZone,
-  charset: "utf8mb4",
+  charset: "utf8mb4"
 
 });
 
@@ -47,8 +46,16 @@ bot.on("message", (message) => {
         return;
       }
       let action = require("./commands/" + commands[commandName].action);
-      action.run(message, args, bot, commands[commandName].extra);
+      action.run(message, args, bot, db, commands[commandName].extra);
     }
+});
+
+bot.ws.on('INTERACTION_CREATE', async interaction => {
+  const commandName = interaction.data.name;
+  if (commandName in commands && commands[commandName].interaction) {
+    let action = require("./commands/" + commands[commandName].action);
+    action.interaction(interaction, bot, db);
+  }
 });
 
 bot.login(config.token);
