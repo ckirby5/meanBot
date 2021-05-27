@@ -17,13 +17,12 @@ const db = mysql.createConnection({
 
 });
 
-db.connect(function(err){
-  if (err) throw err;
-  db.query("SELECT * FROM tods", function(err, result, fields){
-    if (err) throw err;
-    console.log(result);
-  })
-});
+function twentyFourHourRunner() {
+  const twentyFourHourWindowAction = require("./commands/tods/upcomingWindows");
+  twentyFourHourWindowAction.run(bot, db);
+}
+
+setInterval(twentyFourHourRunner, 300000);
 
 bot.once("ready", () => {
     console.log("meanBot is ready!");
