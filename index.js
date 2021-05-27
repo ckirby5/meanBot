@@ -22,7 +22,7 @@ function twentyFourHourRunner() {
   twentyFourHourWindowAction.run(bot, db);
 }
 
-setInterval(twentyFourHourRunner, 300000);
+setInterval(twentyFourHourRunner, 3000);
 
 bot.once("ready", () => {
     console.log("meanBot is ready!");
