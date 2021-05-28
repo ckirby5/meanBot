@@ -18,6 +18,9 @@ const db = mysql.createConnection({
 });
 
 function twentyFourHourRunner() {
+  const currentWindowDeleteMessagesAction = require('./commands/chat/chatDelete');
+  currentWindowDeleteMessagesAction.run(bot, config.upcomingWindowsChannel, config.messagesToDelete);
+  currentWindowDeleteMessagesAction.run(bot, config.currentWindowsChannel, config.messagesToDelete);
   const twentyFourHourWindowAction = require("./commands/tods/upcomingWindows");
   twentyFourHourWindowAction.run(bot, db);
   const currentWindowRunnerAction = require("./commands/tods/currentWindows");
@@ -29,7 +32,7 @@ function oneMinuteRunner() {
   oneMinuteWindowAction.run(bot, db);
 }
 
-setInterval(twentyFourHourRunner, 60000);
+setInterval(twentyFourHourRunner, 300000);
 setInterval(oneMinuteRunner, 60000);
 
 bot.once("ready", () => {

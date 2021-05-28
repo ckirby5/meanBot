@@ -28,5 +28,10 @@
         "action": "tods/tracker",
         "permissions": "all",
         "type": "both"
+    },
+    "help": {
+        "action": "utility/help",
+        "permissions": "all",
+        "type": "both"
     }
 }

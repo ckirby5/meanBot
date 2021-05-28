@@ -6,7 +6,7 @@ exports.run = function(message, args, bot, db) {
     let arg = args.split(" ");
     let mobName = arg[0];
     let answer = arg.slice(1, arg.length).join(" ");
-        db.query("SELECT t.name, t.variance, t.windowStart, t.windowEnd, d1.killedBy, d2.killedBy AS 'lastKilledBy', d1.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE a.name = ?;", args,
+        db.query("SELECT t.name, t.variance, t.windowStart, t.windowEnd, t.targetURL, d1.killedBy, d2.killedBy AS 'lastKilledBy', d1.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE a.name = ?;", args,
         function(err, rows){
             if (err) {
                 console.error("Invalid: " + err);
@@ -15,12 +15,13 @@ exports.run = function(message, args, bot, db) {
                 bot.channels.cache.get('833859329589379095').send("", {
                     embed: {
                         color: "#0099ff",
-                        title: "Mob Info",
+                        title: rows[0].name,
+                        url: rows[0].targetURL,
                         author: {
                             name: 'MeanBot',
                             icon_url: 'https://i.imgur.com/HcURdiB.jpg'
                         },
-                        description: rows[0].name,
+                        description: "Window Info",
                         fields: [
                             {
                                 name: "Time of Death",

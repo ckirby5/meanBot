@@ -20,9 +20,11 @@ const responses = [
     "Very doubtful",
     "lol no",
     "No way",
-    "Odds are about the same as you meeting Taylor",
-    "The probability is the same as Taylor ever getting back together (i.e. never)",
-    "Only if you're a clown :clown:",
+    "You're a moran",
+    "Who the fuck is Tippani?!",
+    "PALLYDAN",
+    "Quicken's Choccy Milkie",
+    "Is piza an open face sandwich?"
   ];
   
   exports.run = function (message, args, bot) {

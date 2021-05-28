@@ -15,7 +15,7 @@ exports.run = function(bot, db, message) {
                 bot.channels.cache.get('842187257926516736').send("<@&842186819386605568> <@&842322700650676224>", {
                     embed: {
                         color: "#0099ff",
-                        title: "Mobs Entering Window: \n",
+                        title: "Mobs Entering Window:\n",
                         author: {
                             name: 'MeanBot',
                             icon_url: 'https://i.imgur.com/HcURdiB.jpg'

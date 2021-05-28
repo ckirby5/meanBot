@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 const moment = require("moment");
+const config = require("../../config.json");
 
 exports.run = function(bot, db, message) {
     const timeStamp = moment().add(24, 'hours');
@@ -11,10 +12,10 @@ exports.run = function(bot, db, message) {
                 console.error("Invalid: " + err);
             }
             if(rows.length > 0) {
-                bot.channels.cache.get('847362765203308614').send("", {
+                bot.channels.cache.get(config.upcomingWindowsChannel).send("", {
                     embed: {
                         color: "#0099ff",
-                        title: "Mobs Entering Window: \n",
+                        title: "Mobs Entering Window:\n",
                         author: {
                             name: 'MeanBot',
                             icon_url: 'https://i.imgur.com/HcURdiB.jpg'
@@ -27,7 +28,7 @@ exports.run = function(bot, db, message) {
                             }
                         }),
                         image: {
-                            url: 'https://i.imgur.com/HcURdiB.jpg'
+                            url: 'https://i.imgur.com/dwXfPJl.jpg'
                         },
                         timestamp: new Date(),
                         footer: {
@@ -48,11 +49,11 @@ exports.run = function(bot, db, message) {
                         description: "Rest Day",
 
                         image: {
-                            url: 'https://i.imgur.com/XjhmcUF.png'
+                            url: 'https://i.imgur.com/Zgppa6s.jpg'
                         },
                         timestamp: new Date(),
                         footer: {
-                            text: "\nThese are entering window soon! Be prepared!"
+                            text: "\nThese is nothing entering window! Enjoy your rest!"
                         }
 
                     }
