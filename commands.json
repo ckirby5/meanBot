@@ -23,10 +23,5 @@
         "action": "tods/tod",
         "permissions": "all",
         "type": "both"
-    },
-    "windows": {
-        "action": "tods/upcomingWindows",
-        "permissions": "all",
-        "type": "both"
     }
 }

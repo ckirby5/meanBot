@@ -6,7 +6,7 @@ exports.run = function(message, args, bot, db) {
     let arg = args.split(" ");
     let mobName = arg[0];
     let answer = arg.slice(1, arg.length).join(" ");
-        db.query("SELECT t.name, t.tod, t.variance, t.windowStart, t.windowEnd FROM meanBot.tods t JOIN meanBot.aliases a ON a.targetId = t.targetId WHERE a.name = ?;", args,
+        db.query("SELECT t.name, t.variance, t.windowStart, t.windowEnd, d1.killedBy, d2.killedBy AS 'lastKilledBy', d1.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE a.name = ?;", args,
         function(err, rows){
             if (err) {
                 console.error("Invalid: " + err);
@@ -38,6 +38,13 @@ exports.run = function(message, args, bot, db) {
                             {
                                 name: "Window Length",
                                 value: `${rows[0].variance > 60 ? (rows[0].variance * 2)/60 : rows[0].variance * 2} ${rows[0].variance < 60 ? ' minutes' : ' hours'}`
+                            },
+                            {
+                                name: "Last Killed By",
+                                value: `${rows[0].killedBy ? rows[0].killedBy : 'Unknown'}`
+                            },{
+                                name: "Previously Killed By",
+                                value: `${rows[0].lastKilledBy ? rows[0].lastKilledBy : 'Unknown'}`
                             }
                         ],
                         timestamp: new Date()
