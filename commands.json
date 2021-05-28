@@ -23,5 +23,10 @@
         "action": "tods/tod",
         "permissions": "all",
         "type": "both"
+    },
+    "track": {
+        "action": "tods/tracker",
+        "permissions": "all",
+        "type": "both"
     }
 }

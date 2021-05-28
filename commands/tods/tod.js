@@ -30,7 +30,7 @@ exports.run = function(message, args, bot, db) {
                     console.log(result);
                     const windowStart = moment(moment().add(rows[0].respawnTime, 'hours').subtract(rows[0].variance, 'minutes')).subtract(modValue, 'minutes');
                     const windowEnd = moment(moment().add(rows[0].respawnTime, 'hours').add(rows[0].variance, 'minutes')).subtract(modValue, 'minutes');
-                    db.query("UPDATE meanBot.targets SET todId = ?, windowStart = ?, windowEnd = ? WHERE targetId = ?;", [result.insertId, windowStart.toDate(), windowEnd.toDate(), rows[0].targetId],
+                    db.query("UPDATE meanBot.targets SET todId = ?, windowStart = ?, windowEnd = ?, tracker = null WHERE targetId = ?;", [result.insertId, windowStart.toDate(), windowEnd.toDate(), rows[0].targetId],
                         function(err, result) {
                             if(result.affectedRows == 1) {
                                 bot.channels.cache.get('842187750068191243').send("", {

@@ -20,9 +20,17 @@ const db = mysql.createConnection({
 function twentyFourHourRunner() {
   const twentyFourHourWindowAction = require("./commands/tods/upcomingWindows");
   twentyFourHourWindowAction.run(bot, db);
+  const currentWindowRunnerAction = require("./commands/tods/currentWindows");
+  currentWindowRunnerAction.run(bot, db);
 }
 
-setInterval(twentyFourHourRunner, 300000);
+function oneMinuteRunner() {
+  const oneMinuteWindowAction = require("./commands/tods/twentyMinuteWarning");
+  oneMinuteWindowAction.run(bot, db);
+}
+
+setInterval(twentyFourHourRunner, 60000);
+setInterval(oneMinuteRunner, 60000);
 
 bot.once("ready", () => {
     console.log("meanBot is ready!");
