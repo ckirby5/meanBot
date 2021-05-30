@@ -33,5 +33,10 @@
         "action": "utility/help",
         "permissions": "all",
         "type": "both"
+    },
+    "camp": {
+        "action": "utility/camp",
+        "permissions": "all",
+        "type": "both"
     }
 }
