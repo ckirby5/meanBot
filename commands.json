@@ -38,5 +38,10 @@
         "action": "utility/camp",
         "permissions": "all",
         "type": "both"
+    },
+    "event": {
+        "action": "guildEvents/event",
+        "permissions": "all",
+        "type": "both"
     }
 }
