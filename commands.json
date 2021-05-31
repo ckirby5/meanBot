@@ -38,5 +38,10 @@
         "action": "utility/camp",
         "permissions": "all",
         "type": "both"
+    },
+    "quake": {
+        "action": "tods/quake",
+        "permissions": "all",
+        "type": "both"
     }
 }
