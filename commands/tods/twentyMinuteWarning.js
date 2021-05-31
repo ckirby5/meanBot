@@ -36,6 +36,9 @@ exports.run = function(bot, db, message) {
                         }
 
                     }
+                }).then(function(message){
+                    message.react("💩");
+                    message.react("🧦");
                 });
             }
         })
