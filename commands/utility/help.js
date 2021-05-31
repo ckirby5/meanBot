@@ -139,6 +139,22 @@ exports.run = function(message, args, bot, db) {
             }
         });
     }
+    const event = () => {
+        bot.channels.cache.get('833859329589379095').send("", {
+            embed: {
+                color: "#0099ff",
+                title: "Event Command",
+                author: {
+                    name: "MeanBot",
+                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                },
+                fields: {
+                    name: "How to use the !event command:",
+                    value: "Use !event -add -name Event Name -date Date\nExample: !event -add -name Hate Clear -date May 27 22:00:00 2021\nUse !event -remove -name Event Name -date Date\nExample: !event -remove -name Hate Clear -date May 27 22:00:00 2021"
+                }
+            }
+        });
+    }
     const df = () => {
         bot.channels.cache.get('833859329589379095').send("",{
             embed: {
@@ -175,6 +191,9 @@ exports.run = function(message, args, bot, db) {
             break;
         case "camp":
             camp();
+            break;
+        case "event":
+            event();
             break;
         default:
             df();

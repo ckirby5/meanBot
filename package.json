@@ -16,5 +16,11 @@
         "discord.js": "12.*",
         "moment": "^2.29.1",
         "mysql": "github:mysqljs/mysql"
+    },
+    "devDependencies": {
+        "jest": "^27.0.3"
+    },
+    "scripts": {
+        "test": "jest"
     }
 }
