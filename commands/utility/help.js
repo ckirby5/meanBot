@@ -60,7 +60,6 @@ exports.run = function(message, args, bot, db) {
             }
         });
     }
-    //For Seal Team extact ToD use: !tod mobname\nFor Seal Team late entry ToD use: !tod mobName, [MM/DD/YYYY HH:MM:SS], example [Thu May 27 22:42:07 2021]\nFor non Seal Team exact ToD use: !tod mobName, $guildName\nFor non Seal Team late entry ToD use: !tod mobName, [MM/DD/YYYY HH:MM:SS], $guildName
     const tod = () => {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
@@ -166,7 +165,7 @@ exports.run = function(message, args, bot, db) {
                 },
                 fields: {
                     name: "Available Commands",
-                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp"
+                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent"
                 }
             }
         })
