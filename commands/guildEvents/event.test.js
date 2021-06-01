@@ -81,7 +81,7 @@ describe(('run '), () => {
         expect(mockSend).toHaveBeenCalled()
         expect(mockSend).toHaveBeenCalledWith("No event date specified")
     });
-    test('should call db AND write return message', () => {
+    test('-add should call db AND write return message', () => {
         const mockSend = jest.fn();
         const bot = {
             channels: {
@@ -90,14 +90,39 @@ describe(('run '), () => {
                 }
             }
         }
-        const mockQuery = jest.fn()
         const db = {
-            query: mockQuery
+            query: (query, args, callback) =>{
+                callback(null,[] )
+            }
         }
+        const mockQuery = jest.spyOn(db, 'query');
         const args = '-add -name hate -date 6/1/2021 19:00';
 
         action.run('', args, bot, db)
 
-        expect(mockQuery).toHaveBeenCalled()
+        expect(mockQuery).toHaveBeenCalledWith("INSERT INTO meanBot.events (name, date) VALUES (?, ?);", ["hate", new Date('6/1/2021 19:00')], expect.any(Function))
+        expect(mockSend).toHaveBeenCalledWith("Added hate to the schedule on June 1, 2021 7:00 PM")
+    })
+    test('-remove should call db AND write return message', () => {
+        const mockSend = jest.fn();
+        const bot = {
+            channels: {
+                cache:{
+                    get: () => {return { send: mockSend}}
+                }
+            }
+        }
+        const db = {
+            query: (query, args, callback) =>{
+                callback(null,[] )
+            }
+        }
+        const mockQuery = jest.spyOn(db, 'query');
+        const args = '-remove -name hate -date 6/1/2021 19:00';
+
+        action.run('', args, bot, db)
+
+        expect(mockQuery).toHaveBeenCalledWith("DELETE from meanBot.events where name = ? and date = ?;", ["hate", new Date('6/1/2021 19:00')], expect.any(Function))
+        expect(mockSend).toHaveBeenCalledWith("Removed hate on June 1, 2021 7:00 PM from the schedule")
     })
 })
