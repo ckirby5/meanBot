@@ -18,12 +18,17 @@ exports.run = function(message, args, bot, db) {
     console.log(mobName);
     console.log(modValue);
     
-        db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d ON t.todId = d.todId WHERE a.name = ?;", mobName.trim(),
+    db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime, d.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d ON t.todId = d.todId WHERE a.name = ?;", mobName.trim(),
         function(err, rows){
             if (err) {
                 console.error("Invalid: " + err);
             }
             if (rows[0] !== null && rows[0] !== undefined) {
+                const duration = moment.duration(moment().diff(moment(rows[0])));
+                if(duration.asMinutes < 5) {
+                    bot.channels.cache.get('833859329589379095').send("A value near this time has already been added");
+                    return;
+                }
                 let tod = moment().subtract(modValue, 'minutes');
                 if (actualTod) {
                     tod = moment(actualTod);
