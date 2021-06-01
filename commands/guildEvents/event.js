@@ -33,14 +33,14 @@ exports.run = function(message, args, bot, db) {
 
     const date = moment(params.date);
     if(params.hasOwnProperty('add') && params.add){
-        db.query("INSERT INTO meanBot.events (name, date) VALUES (?, ?);", [params.name, date.toDate()],
+        db.query("INSERT INTO meanBot.events (name, date, updatedBy) VALUES (?, ?, ?);", [params.name, date.toDate(), message.author.id],
         function(err, result) {
             if (err) throw err 
             bot.channels.cache.get('833859329589379095').send(`Added ${params.name} to the schedule on ${date.format('LLL')}`);
         })
     }
     if(params.hasOwnProperty('remove') && params.remove){
-        db.query("DELETE from meanBot.events where name = ? and date = ?;", [params.name, date.toDate()],
+        db.query("UPDATE meanBot.events SET deletedBy = ? where name = ? and date = ?;", [message.author.id, params.name, date.toDate()],
         function(err, result) {
             if (err) throw err 
             bot.channels.cache.get('833859329589379095').send(`Removed ${params.name} on ${date.format('LLL')} from the schedule`);

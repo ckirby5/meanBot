@@ -20,7 +20,7 @@ const db = mysql.createConnection({
 function twentyFourHourRunner() {
   const currentWindowDeleteMessagesAction = require('./commands/chat/chatDelete');
   currentWindowDeleteMessagesAction.run(bot, config.windowsChannel, config.messagesToDelete);
-  currentWindowDeleteMessagesAction.run(bot, config.campCheckChannel, config.messagesToDelete)
+  currentWindowDeleteMessagesAction.run(bot, config.campCheckChannel, config.messagesToDelete);
   const twentyFourHourWindowAction = require("./commands/tods/upcomingWindows");
   twentyFourHourWindowAction.run(bot, db);
   const currentWindowRunnerAction = require("./commands/tods/currentWindows");

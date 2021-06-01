@@ -131,10 +131,16 @@ exports.run = function(message, args, bot, db) {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
                 },
-                fields: {
-                    name: "How to use the !camp command:",
-                    value: "Use !camp start campName\nExample: !camp start idols"
-                }
+                fields: [
+                    {
+                        name: "How to use the !camp start command",
+                        value: "Use !camp start campName\nExample: !camp start idols"
+                        },
+                        {
+                        name: "How to use the !camp end command",
+                        value: "Use !camp end campName\nExample: !camp end idols"
+                        }
+                ]
             }
         });
     }
@@ -165,10 +171,10 @@ exports.run = function(message, args, bot, db) {
                 },
                 fields: {
                     name: "Available Commands",
-                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent"
+                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent\nrte"
                 }
             }
-        })
+        });
     }
     const track = () => {
         bot.channels.cache.get('833859329589379095').send("",{
@@ -184,8 +190,32 @@ exports.run = function(message, args, bot, db) {
                     value: "Use !track alias @yourself\nExample: !track naggy @meanBot"
                 }
             }
-        })
+        });
     }
+
+    const rte = () => {
+        bot.channels.cache.get('833859329589379095').send("",{
+            embed: {
+                color: "#0099ff",
+                title: "RTE Command",
+                author: {
+                    name: "MeanBot",
+                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                },
+                fields: [
+                    {
+                    name: "How to use the !rte start command",
+                    value: "Use !rte -start -char charName -role role -mob mobName\nExample: !rte -start -char Meaners -role Tracker -mob Phinny"
+                    },
+                    {
+                    name: "How to use the !rte stop command",
+                    value: "Use !rte -stop -char charName -role role -mob mobName\nExample: !rte -stop -char Meaners -role Tracker -mob Phinny"
+                    }
+                ]
+            }
+        });
+    }
+
     
     
     switch(args) {
@@ -212,6 +242,9 @@ exports.run = function(message, args, bot, db) {
             break;
         case "track":
             track();
+            break;
+        case "rte":
+            rte();
             break;
         default:
             df();

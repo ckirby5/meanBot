@@ -38,8 +38,7 @@ exports.run = function(message, args, bot, db) {
                     }
                 }
                 if(tod){
-                    // INSERT INTO meanBot.tod (tod, targetId, bag, previousTodId) VALUES ('2021-05-27 16:16:57.829',2,'1',null);
-                    db.query("INSERT INTO meanBot.tod (tod, targetId, killedBy, previousTodId) VALUES (?, ?, ?, ?);", [tod.toDate(), rows[0].targetId, killedByValue, rows[0].todId],
+                    db.query("INSERT INTO meanBot.tod (tod, targetId, killedBy, previousTodId, recordedBy) VALUES (?, ?, ?, ?, ?);", [tod.toDate(), rows[0].targetId, killedByValue, rows[0].todId, message.author.id],
                     function(err, result) {
                         if (err) throw err 
                         console.log(result);
@@ -86,9 +85,15 @@ exports.run = function(message, args, bot, db) {
                                 }
                             }
                         )
+                        db.query("UPDATE meanBot.rte SET completed = ? WHERE targetId = ?;", [moment().toDate(), rows[0].targetId])
                     })
-                    const scheduleUpdateAction = require('../../commands/guildEvents/schedule');
-                    setTimeout(() => { scheduleUpdateAction.run('', '', bot, db) }, 1000)
+                    const postActions = () => {
+                        const scheduleUpdateAction = require('../../commands/guildEvents/schedule');
+                        const rteUpdateAction = require('../../commands/tods/rteStatus');
+                        scheduleUpdateAction.run('', '', bot, db);
+                        rteUpdateAction.run(bot, db);
+                    }
+                    setTimeout(postActions, 1000);
                 } else {
                     bot.channels.cache.get('833859329589379095').send("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]");
                 }

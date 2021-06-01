@@ -24,6 +24,9 @@ exports.run = function(message, args, bot, db) {
             if(command == 'start') {
                 trackerName = tracker;
             }
+            if(command == 'end') {
+                trackerName = null;
+            }
             if (rows[0] !== null && rows[0] !== undefined) {
                 db.query("UPDATE meanBot.targets SET tracker = ? WHERE targetId = ?", [trackerName, rows[0].targetId],
                 function(err, result) {
@@ -33,18 +36,18 @@ exports.run = function(message, args, bot, db) {
                     bot.channels.cache.get('833859329589379095').send("", {
                         embed :{
                             color: "#0099ff",
-                            title: "Camp Started",
+                            title: `Camp ${command}ed`,
                             author: {
                                 name: "MeanBot",
                                 image_url: "https://i.imgur.com/HcURdiB.jpg"
                             },
                             fields: {
                                 name: `Camp name: ${rows[0].name}`,
-                                value: `Camped By: ${trackerName}`
+                                value: `Camped By: ${trackerName ? trackerName : 'Camp is open'}`
                             },
                             timestamp: new Date(),
                             footer: {
-                                text: "You have started your camp."
+                                text: `You have ${command}ed your camp`
                             }
 
                         }

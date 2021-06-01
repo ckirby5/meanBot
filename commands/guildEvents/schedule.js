@@ -10,7 +10,7 @@ exports.run = function(message, args, bot, db) {
             if (err) {
                 console.error("db error occured: " + err);
             }
-            db.query("SELECT name, date FROM meanBot.events where date between ? and ?", [moment().toDate(),moment().add(7, 'days').toDate()],
+            db.query("SELECT name, date FROM meanBot.events where date between ? and ? AND deletedBy IS null", [moment().toDate(),moment().add(7, 'days').toDate()],
                 function(err, eventResults) {
                     if (err) {
                         console.error("db error occured: " + err);

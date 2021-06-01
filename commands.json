@@ -1,9 +1,4 @@
 {
-    "8ball": {
-        "action": "fun/8ball",
-        "permissions": "all",
-        "type": "both"
-    },
     "bp": {
         "action": "phones/batphone",
         "permissions": "all",
@@ -51,6 +46,11 @@
     },
     "schedule": {
         "action": "guildEvents/schedule",
+        "permissions": "all",
+        "type": "both"
+    },
+    "rte": {
+        "action": "tods/rte",
         "permissions": "all",
         "type": "both"
     }
