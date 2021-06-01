@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 const moment = require("moment");
 
+
 exports.run = function(message, args, bot, db) {
     const arguments = args.split(',')
     let mobName = ''
@@ -25,10 +26,10 @@ exports.run = function(message, args, bot, db) {
             }
             if (rows[0] !== null && rows[0] !== undefined) {
                 const duration = moment.duration(moment().diff(moment(rows[0].tod)));
-                if(duration.asMinutes() < 5) {
+                /*if(duration.asMinutes() < 5) {
                     bot.channels.cache.get('833859329589379095').send("A value near this time has already been added");
                     return;
-                }
+                }*/
                 let tod = moment().subtract(modValue, 'minutes');
                 if (actualTod) {
                     tod = moment(actualTod);
@@ -86,6 +87,8 @@ exports.run = function(message, args, bot, db) {
                             }
                         )
                     })
+                    const scheduleUpdateAction = require('../../commands/guildEvents/schedule');
+                    setTimeout(() => { scheduleUpdateAction.run('', '', bot, db) }, 1000)
                 } else {
                     bot.channels.cache.get('833859329589379095').send("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]");
                 }

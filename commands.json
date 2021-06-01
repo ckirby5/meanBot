@@ -48,5 +48,10 @@
         "action": "tods/quake",
         "permissions": "all",
         "type": "both"
+    },
+    "schedule": {
+        "action": "guildEvents/schedule",
+        "permissions": "all",
+        "type": "both"
     }
 }
