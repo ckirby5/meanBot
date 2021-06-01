@@ -24,8 +24,8 @@ exports.run = function(message, args, bot, db) {
                 console.error("Invalid: " + err);
             }
             if (rows[0] !== null && rows[0] !== undefined) {
-                const duration = moment.duration(moment().diff(moment(rows[0])));
-                if(duration.asMinutes < 5) {
+                const duration = moment.duration(moment().diff(moment(rows[0].tod)));
+                if(duration.asMinutes() < 5) {
                     bot.channels.cache.get('833859329589379095').send("A value near this time has already been added");
                     return;
                 }

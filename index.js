@@ -34,7 +34,7 @@ function oneMinuteRunner() {
   oneMinuteWindowAction.run(bot, db);
 }
 
-setInterval(twentyFourHourRunner, 3000);
+setInterval(twentyFourHourRunner, 300000);
 setInterval(oneMinuteRunner, 60000);
 
 bot.once("ready", () => {
