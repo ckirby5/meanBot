@@ -39,6 +39,11 @@
         "permissions": "all",
         "type": "both"
     },
+    "event": {
+        "action": "guildEvents/event",
+        "permissions": "all",
+        "type": "both"
+    },
     "quake": {
         "action": "tods/quake",
         "permissions": "all",
