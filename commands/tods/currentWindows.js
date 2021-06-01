@@ -37,7 +37,7 @@ exports.run = function(bot, db, message) {
                         const numberOfTicksToEnd = Math.ceil(toEnd/interval);
                         return { 
                             name: `${row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable ?  ':handbag:' : ':tractor:'} ${row.name} (${window})`, 
-                            value: `\nCurrent Tracker: ${row.tracker ? row.tracker : 'No Current Tracker'}\nTime in Window: ${moment.utc(moment(new Date()).diff(moment(row.windowStart,"DD/MM/YYYY HH:mm:ss"))).format("HH [hours] mm [minutes] ss [seconds]")}\n\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}`
+                            value: `\nCurrent Tracker: ${row.tracker ? row.tracker : 'No Current Tracker'}\nTime in Window: ${moment.utc(moment(new Date()).diff(moment(row.windowStart,"DD/MM/YYYY HH:mm:ss"))).format("DD [days] HH [hours] mm [minutes] ss [seconds]")}\n\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}`
                         }
                     }
                 )).setImage("https://i.imgur.com/iP9N5Qn.png").setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
