@@ -43,9 +43,9 @@ exports.run = function(bot, db, message) {
                         }
                     }
                 )).setImage("https://i.imgur.com/iP9N5Qn.png").setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
-                bot.channels.cache.get(config.currentWindowsChannel).send(embed);
+                bot.channels.cache.get(config.windowsChannel).send(embed);
             } else {
-                bot.channels.cache.get('847648091666120754').send("", {
+                bot.channels.cache.get(config.windowsChannel).send("", {
                     embed: {
                         color: "#0099ff",
                         title: ":rotating_light: Mobs In Window: :rotating_light:\n",

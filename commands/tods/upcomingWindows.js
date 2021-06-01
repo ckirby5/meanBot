@@ -12,7 +12,7 @@ exports.run = function(bot, db, message) {
                 console.error("Invalid: " + err);
             }
             if(rows.length > 0) {
-                bot.channels.cache.get(config.upcomingWindowsChannel).send("", {
+                bot.channels.cache.get(config.windowsChannel).send("", {
                     embed: {
                         color: "#0099ff",
                         title: "Mobs Entering Window In The Next 24 Hours\n",
