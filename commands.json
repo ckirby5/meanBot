@@ -1,0 +1,52 @@
+{
+    "8ball": {
+        "action": "fun/8ball",
+        "permissions": "all",
+        "type": "both"
+    },
+    "bp": {
+        "action": "phones/batphone",
+        "permissions": "all",
+        "type": "both"
+    },
+    "sp": {
+        "action": "phones/sockphone",
+        "permissions": "all",
+        "type": "both"
+    },
+    "window": {
+        "action": "tods/window",
+        "permissions": "all",
+        "type": "both"
+    },
+    "tod": {
+        "action": "tods/tod",
+        "permissions": "all",
+        "type": "both"
+    },
+    "track": {
+        "action": "tods/tracker",
+        "permissions": "all",
+        "type": "both"
+    },
+    "help": {
+        "action": "utility/help",
+        "permissions": "all",
+        "type": "both"
+    },
+    "camp": {
+        "action": "utility/camp",
+        "permissions": "all",
+        "type": "both"
+    },
+    "event": {
+        "action": "guildEvents/event",
+        "permissions": "all",
+        "type": "both"
+    },
+    "quake": {
+        "action": "tods/quake",
+        "permissions": "all",
+        "type": "both"
+    }
+}
