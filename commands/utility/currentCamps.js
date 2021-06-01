@@ -16,7 +16,7 @@ exports.run = function(bot, db, message) {
             .addFields(
                 rows.map((row) => {
                     return {
-                        name: `Camp: ${row.name}`,
+                        name: `${row.name}`,
                         value: `Camp Holder: ${row.tracker}`
                     }
                 })
