@@ -46,4 +46,5 @@ exports.run = function(message, args, bot, db) {
             bot.channels.cache.get('833859329589379095').send(`Removed ${params.name} on ${date.format('LLL')} from the schedule`);
         })
     }
+
 }
