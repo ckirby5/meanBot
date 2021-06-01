@@ -25,6 +25,8 @@ function twentyFourHourRunner() {
   twentyFourHourWindowAction.run(bot, db);
   const currentWindowRunnerAction = require("./commands/tods/currentWindows");
   currentWindowRunnerAction.run(bot, db);
+  const currentCampsBeingHeldAction = require('./commands/utility/currentCamps');
+  currentCampsBeingHeldAction.run(bot, db);
 }
 
 function oneMinuteRunner() {

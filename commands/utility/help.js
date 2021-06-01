@@ -170,6 +170,22 @@ exports.run = function(message, args, bot, db) {
             }
         })
     }
+    const track = () => {
+        bot.channels.cache.get('833859329589379095').send("",{
+            embed: {
+                color: "#0099ff",
+                title: "Track Command",
+                author: {
+                    name: "MeanBot",
+                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                },
+                fields: {
+                    name: "How to use the !track command",
+                    value: "Use !track alias @yourself\nExample: !track naggy @meanBot"
+                }
+            }
+        })
+    }
     
     
     switch(args) {
@@ -193,6 +209,9 @@ exports.run = function(message, args, bot, db) {
             break;
         case "event":
             event();
+            break;
+        case "track":
+            track();
             break;
         default:
             df();
