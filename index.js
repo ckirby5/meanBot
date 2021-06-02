@@ -17,6 +17,16 @@ const db = mysql.createConnection({
 
 });
 
+async function checkIfAuthorInRole(roleName, message) {
+  const guild = await bot.guilds.fetch(config.guildId);
+  const role = guild.roles.cache.find(role => role.name === roleName);
+  const memberArray = Array.from(role.members, ([name, value]) => ({...value}));
+  const memberInArray = memberArray.find(member => member.user.username == message.author.username);
+  console.log(memberArray);
+  console.log(memberInArray);
+  return memberInArray != undefined;
+}
+
 function twentyFourHourRunner() {
   const currentWindowDeleteMessagesAction = require('./commands/chat/chatDelete');
   currentWindowDeleteMessagesAction.run(bot, config.windowsChannel, config.messagesToDelete);
@@ -41,7 +51,7 @@ bot.once("ready", () => {
     console.log("meanBot is ready!");
 });
 
-bot.on("message", (message) => {
+bot.on("message", async (message) => {
     if (message.channel.type != "text") {
       return;
     }
@@ -57,8 +67,10 @@ bot.on("message", (message) => {
       if (commands[commandName].type === "dm") {
         return;
       }
-      let action = require("./commands/" + commands[commandName].action);
-      action.run(message, args, bot, db, commands[commandName].extra);
+      if(await checkIfAuthorInRole(commands[commandName].role, message)){
+        let action = require("./commands/" + commands[commandName].action);
+        action.run(message, args, bot, db, commands[commandName].extra);
+      }
     }
 });
 

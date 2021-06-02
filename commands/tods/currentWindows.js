@@ -12,7 +12,6 @@ exports.run = function(bot, db, message) {
             if (err) {
                 console.error("Invalid: " + err);
             }
-            
             if(rows.length > 0) {
                 const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle(":rotating_light: Mobs In Window: :rotating_light:\n")
                 .setAuthor("MeanBot", "https://i.imgur.com/HcURdiB.jpg")

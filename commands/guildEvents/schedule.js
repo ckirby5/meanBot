@@ -25,8 +25,6 @@ exports.run = function(message, args, bot, db) {
 
                     combinedArray.sort((a, b) => a.date - b.date);
 
-                    console.log(combinedArray)
-
                     let days = [];
                     let daysRequired = 7
 
@@ -44,7 +42,6 @@ exports.run = function(message, args, bot, db) {
                             })
                         }
                     }
-                    console.log(daySchedule);
                     const finalSchedule = daySchedule.filter((day) => day.event != undefined);
                     const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Event Schedule\n")
                     .setAuthor("MeanBot", "https://i.imgur.com/HcURdiB.jpg")
