@@ -18,7 +18,7 @@ exports.run = function(bot, db, message) {
                         title: "Mobs Entering Window In The Next 24 Hours\n",
                         author: {
                             name: 'MeanBot',
-                            icon_url: 'https://i.imgur.com/HcURdiB.jpg'
+                            icon_url: 'https://i.imgur.com/tYfYIy3.png'
                         },
                         fields: rows.map((row) => {
                             return { 
@@ -26,9 +26,6 @@ exports.run = function(bot, db, message) {
                                 value: `\nOpens in: ${moment.utc(moment(row.windowStart,"DD/MM/YYYY HH:mm:ss").diff(moment(new Date(),"DD/MM/YYYY HH:mm:ss"))).format("HH [hours] mm [minutes] ss [seconds]")}` 
                             }
                         }),
-                        image: {
-                            url: 'https://i.imgur.com/dwXfPJl.jpg'
-                        },
                         timestamp: new Date(),
                         footer: {
                             text: "\nThese are entering window soon! Be prepared!"

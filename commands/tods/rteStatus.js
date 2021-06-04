@@ -24,7 +24,7 @@ exports.run = function(bot, db, message) {
                     });
 
                     const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Current RTE\n")
-                    .setAuthor("MeanBot", "https://i.imgur.com/HcURdiB.jpg")
+                    .setAuthor("MeanBot", "https://i.imgur.com/tYfYIy3.png")
                     .addFields(
                         activeRte.map((rte) => {
                             return { 
@@ -32,7 +32,7 @@ exports.run = function(bot, db, message) {
                                 value: rte.rters && rte.rters.length > 0 ? rte.rters.map(rter => `${rter.role} : ${rter.who}`) : 'No RTE currently set.'
                             }
                         }
-                    )).setImage("https://i.imgur.com/0AZz4OD.jpg").setTimestamp().setFooter("/nThese are currently in RTE! Be prepared!")
+                    )).setTimestamp().setFooter("/nThese are currently in RTE! Be prepared!")
                     bot.channels.cache.get(config.activeRteChannel).send(embed);
 
         }

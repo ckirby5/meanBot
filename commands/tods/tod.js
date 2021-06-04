@@ -59,7 +59,7 @@ exports.run = function(message, args, bot, db) {
                                             title: "Mob Info Updated",
                                             author: {
                                                 name: 'MeanBot',
-                                                icon_url: 'https://i.imgur.com/HcURdiB.jpg'
+                                                icon_url: 'https://i.imgur.com/tYfYIy3.png'
                                             },
                                             description: rows[0].name,
                                             fields: [

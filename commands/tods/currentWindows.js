@@ -13,8 +13,8 @@ exports.run = function(bot, db, message) {
                 console.error("Invalid: " + err);
             }
             if(rows.length > 0) {
-                const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle(":rotating_light: Mobs In Window: :rotating_light:\n")
-                .setAuthor("MeanBot", "https://i.imgur.com/HcURdiB.jpg")
+                const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Mobs In Window\n")
+                .setAuthor("MeanBot", "https://i.imgur.com/tYfYIy3.png")
                 .addFields(
                     rows.map((row) => {
                         const windowLengthInMinutes = row.variance * 2;
@@ -38,22 +38,20 @@ exports.run = function(bot, db, message) {
                         const timeInWindow = `${Math.floor(positiveTime/60)} hours and ${Math.floor(positiveTime%60)} minutes`
                         return { 
                             name: `${row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable ?  ':handbag:' : ':tractor:'} ${row.name} (${window})`, 
-                            value: `\nCurrent Tracker: ${row.tracker ? row.tracker : 'No Current Tracker'}\nTime in Window: ${timeInWindow}\n\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}`
+                            value: `\nTime in Window: ${timeInWindow}\n\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}`
                         }
                     }
-                )).setImage("https://i.imgur.com/iP9N5Qn.png").setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
+                )).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
                 bot.channels.cache.get(config.windowsChannel).send(embed);
             } else {
                 bot.channels.cache.get(config.windowsChannel).send("", {
                     embed: {
                         color: "#0099ff",
-                        title: ":rotating_light: Mobs In Window: :rotating_light:\n",
+                        title: "Nothing Currently in Window\n",
                         author: {
                             name: 'MeanBot',
-                            icon_url: 'https://i.imgur.com/HcURdiB.jpg'
+                            icon_url: 'https://i.imgur.com/tYfYIy3.png'
                         },
-                        description: "Nothing in Window",
-
                         image: {
                             url: 'https://i.imgur.com/Zgppa6s.jpg'
                         },

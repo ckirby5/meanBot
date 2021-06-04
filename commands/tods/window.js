@@ -6,7 +6,12 @@ exports.run = function(message, args, bot, db) {
     let arg = args.split(" ");
     let mobName = arg[0];
     let answer = arg.slice(1, arg.length).join(" ");
-        db.query("SELECT t.name, t.variance, t.windowStart, t.windowEnd, t.targetURL, d1.killedBy, d2.killedBy AS 'lastKilledBy', d1.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE a.name = ?;", args,
+    db.query("SELECT id, name from meanBot.role;", 
+    function(err, roles) {
+        if (err) {
+            console.log("Error getting roles from db: " + err);
+        } 
+        db.query("SELECT t.name, t.variance, t.windowStart, t.windowEnd, t.targetURL, t.RTERoles, d1.killedBy, d2.killedBy AS 'lastKilledBy', d1.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE a.name = ?;", args,
         function(err, rows){
             if (err) {
                 console.error("Invalid: " + err);
@@ -19,10 +24,16 @@ exports.run = function(message, args, bot, db) {
                         url: rows[0].targetURL,
                         author: {
                             name: 'MeanBot',
-                            icon_url: 'https://i.imgur.com/HcURdiB.jpg'
+                            icon_url: 'https://i.imgur.com/tYfYIy3.png'
                         },
                         description: "Window Info",
                         fields: [
+                            {
+                                name: "RTE Roles Available",
+                                value: rows[0].RTERoles.split(',').map((roleId) => {
+                                    return "*"+roles.find(r => r.id == roleId).name+"*"
+                                })
+                            },
                             {
                                 name: "Time of Death",
                                 value: moment(rows[0].tod).format('LLL'),
@@ -62,7 +73,7 @@ exports.run = function(message, args, bot, db) {
                         title: "You specified an invalid target! Fuck you!",
                         author: {
                             name: "MeanBot",
-                            icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                            icon_url: "https://i.imgur.com/tYfYIy3.png"
                         },
                         image: {
                             url: "https://i.imgur.com/HcURdiB.jpg"
@@ -72,7 +83,8 @@ exports.run = function(message, args, bot, db) {
                 });
             }
         })
-     } 
+    })
+} 
 
 
 

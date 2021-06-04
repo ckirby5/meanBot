@@ -39,7 +39,7 @@ exports.run = function(message, args, bot, db) {
                             title: `Camp ${command}ed`,
                             author: {
                                 name: "MeanBot",
-                                image_url: "https://i.imgur.com/HcURdiB.jpg"
+                                image_url: "https://i.imgur.com/tYfYIy3.png"
                             },
                             fields: {
                                 name: `Camp name: ${rows[0].name}`,

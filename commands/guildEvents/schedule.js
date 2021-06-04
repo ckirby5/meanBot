@@ -44,7 +44,7 @@ exports.run = function(message, args, bot, db) {
                     }
                     const finalSchedule = daySchedule.filter((day) => day.event != undefined);
                     const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Event Schedule\n")
-                    .setAuthor("MeanBot", "https://i.imgur.com/HcURdiB.jpg")
+                    .setAuthor("MeanBot", "https://i.imgur.com/tYfYIy3.png")
                     .addFields(
                         finalSchedule.map((ds)=>{
                             let value = 'Nothing scheduled at this time'
@@ -61,7 +61,7 @@ exports.run = function(message, args, bot, db) {
                             }
                         })
                         
-                    ).setImage("https://i.imgur.com/iP9N5Qn.png").setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
+                    ).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
                     bot.channels.cache.get(config.eventSchedulesChannel).send(embed);
                 }
             )

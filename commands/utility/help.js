@@ -28,7 +28,7 @@ exports.run = function(message, args, bot, db) {
                         title: "Aliases for targets\n",
                         author: {
                             name: "MeanBot",
-                            icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                            icon_url: "https://i.imgur.com/tYfYIy3.png"
                         },
                         fields: fields.map((f) => {
                             return {
@@ -51,7 +51,7 @@ exports.run = function(message, args, bot, db) {
                 title: "Window Command (Member Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !window command:",
@@ -67,7 +67,7 @@ exports.run = function(message, args, bot, db) {
                 title: "Tod Command - All ToDs must use EST! (Member Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: [
                     {
@@ -97,7 +97,7 @@ exports.run = function(message, args, bot, db) {
                 title: "Batphone Command (Tracker Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !bp command:",
@@ -113,7 +113,7 @@ exports.run = function(message, args, bot, db) {
                 title: "Sockphone Command (Raider Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !bp command:",
@@ -129,7 +129,7 @@ exports.run = function(message, args, bot, db) {
                 title: "Camp Command (Member Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: [
                     {
@@ -151,7 +151,7 @@ exports.run = function(message, args, bot, db) {
                 title: "Event Command (Scheduler Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !event command:",
@@ -167,7 +167,7 @@ exports.run = function(message, args, bot, db) {
                 title: "Please use !help (command) for more info\n",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "Available Commands",
@@ -183,7 +183,7 @@ exports.run = function(message, args, bot, db) {
                 title: "Track Command (Raider Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !track command",
@@ -200,7 +200,7 @@ exports.run = function(message, args, bot, db) {
                 title: "RTE Command (Raider Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: [
                     {

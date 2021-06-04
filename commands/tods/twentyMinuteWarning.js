@@ -11,25 +11,22 @@ exports.run = function(bot, db, message) {
             if (err) {
                 console.error("Invalid: " + err);
             }
-            if(rows.length > 0) {
+            if(rows.length > 0 && (row[0].killedBy == 'Seal Team' && row[0].lastKilledBy == 'Seal Team' && row[0].isBaggable)) {
                 bot.channels.cache.get('842187257926516736').send("<@&842186819386605568> <@&842322700650676224>", {
                     embed: {
                         color: "#0099ff",
                         title: "Mobs Entering Window:\n",
                         author: {
                             name: 'MeanBot',
-                            icon_url: 'https://i.imgur.com/HcURdiB.jpg'
+                            icon_url: 'hhttps://i.imgur.com/tYfYIy3.png'
                         },
                         description: "In 20 minutes:",
                         fields: rows.map((row) => {
                             return { 
-                                name: `${row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable ?  ':handbag:' : ':tractor:'} ${row.name}`, 
+                                name: `${row.name}`, 
                                 value: `Window Opens at: ${moment(row.windowStart).format('LLL')}\nWindow Opens in: ${moment.utc(moment(row.windowStart,"DD/MM/YYYY HH:mm:ss").diff(moment(new Date(),"DD/MM/YYYY HH:mm:ss"))).format("HH [hours] mm [minutes] ss [seconds]")}\nPreviously Killed By: ${row.killedBy ? row.killedBy : 'Unknown'}, ${row.lastKilledBy ? row.lastKilledBy : 'Unknown'}` 
                             }
                         }),
-                        image: {
-                            url: 'https://i.imgur.com/HcURdiB.jpg'
-                        },
                         timestamp: new Date(),
                         footer: {
                             text: "\nThese are entering window soon! Be prepared!"

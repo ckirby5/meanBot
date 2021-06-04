@@ -12,7 +12,7 @@ exports.run = function(bot, db, message) {
         }
 
         if (rows.length > 0) {
-            const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle('Current Active Camps').setAuthor("MeanBot", "https://i.imgur.com/HcURdiB.jpg")
+            const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle('Current Active Camps').setAuthor("MeanBot", "https://i.imgur.com/tYfYIy3.png")
             .addFields(
                 rows.map((row) => {
                     return {
@@ -20,7 +20,7 @@ exports.run = function(bot, db, message) {
                         value: `Camp Holder: ${row.tracker}`
                     }
                 })
-            ).setImage("https://i.imgur.com/YWu02Yo.png").setTimestamp().setFooter("\nCheck with current camp holder to be added to list");
+            ).setTimestamp().setFooter("\nCheck with current camp holder to be added to list");
             bot.channels.cache.get(config.campCheckChannel).send(embed);
         }
     });
