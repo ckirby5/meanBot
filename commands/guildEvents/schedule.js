@@ -5,7 +5,7 @@ const config = require("../../config.json");
 
 exports.run = function(message, args, bot, db) {
     const now = moment();
-    db.query("SELECT t.name, t.windowStart as 'date', t.windowEnd as 'end', t.variance, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM meanBot.targets t LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId where windowStart between ? and ?", [moment().toDate(),moment().add(7, 'days').toDate()],
+    db.query("SELECT t.name, t.windowStart as 'date', t.windowEnd as 'end', t.variance, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM meanBot.targets t LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId where windowStart between ? and ?", [moment().startOf('day').toDate(),moment().endOf('day').add(7, 'days').toDate()],
         function(err, targetResults) {
             if (err) {
                 console.error("db error occured: " + err);

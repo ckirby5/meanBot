@@ -22,8 +22,6 @@ async function checkIfAuthorInRole(roleName, message) {
   const role = guild.roles.cache.find(role => role.name === roleName);
   const memberArray = Array.from(role.members, ([name, value]) => ({...value}));
   const memberInArray = memberArray.find(member => member.user.username == message.author.username);
-  console.log(memberArray);
-  console.log(memberInArray);
   return memberInArray != undefined;
 }
 
@@ -70,6 +68,9 @@ bot.on("message", async (message) => {
       if(await checkIfAuthorInRole(commands[commandName].role, message)){
         let action = require("./commands/" + commands[commandName].action);
         action.run(message, args, bot, db, commands[commandName].extra);
+      }
+      else {
+        message.channel.send("You do not have the proper role to use this command!");
       }
     }
 });

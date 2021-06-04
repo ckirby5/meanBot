@@ -48,7 +48,7 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Window Command",
+                title: "Window Command (Member Role)",
                 author: {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
@@ -64,7 +64,7 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Tod Command - All ToDs must use EST!",
+                title: "Tod Command - All ToDs must use EST! (Member Role)",
                 author: {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
@@ -94,7 +94,7 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Batphone Command",
+                title: "Batphone Command (Tracker Role)",
                 author: {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
@@ -110,7 +110,7 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Sockphone Command",
+                title: "Sockphone Command (Raider Role)",
                 author: {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
@@ -126,7 +126,7 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Camp Command",
+                title: "Camp Command (Member Role)",
                 author: {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
@@ -148,7 +148,7 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Event Command",
+                title: "Event Command (Scheduler Role)",
                 author: {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
@@ -180,7 +180,7 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("",{
             embed: {
                 color: "#0099ff",
-                title: "Track Command",
+                title: "Track Command (Raider Role)",
                 author: {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
@@ -197,7 +197,7 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("",{
             embed: {
                 color: "#0099ff",
-                title: "RTE Command",
+                title: "RTE Command (Raider Role)",
                 author: {
                     name: "MeanBot",
                     icon_url: "https://i.imgur.com/HcURdiB.jpg"
