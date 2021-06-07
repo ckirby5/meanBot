@@ -11,14 +11,14 @@ exports.run = function(bot, db, message) {
             if (err) {
                 console.error("Invalid: " + err);
             }
-            if(rows.length > 0 && (row[0].killedBy == 'Seal Team' && row[0].lastKilledBy == 'Seal Team' && row[0].isBaggable)) {
+            if(rows.length > 0 && (rows[0].killedBy == 'Seal Team' && rows[0].lastKilledBy == 'Seal Team' && rows[0].isBaggable)) {
                 bot.channels.cache.get('842187257926516736').send("<@&842186819386605568> <@&842322700650676224>", {
                     embed: {
                         color: "#0099ff",
                         title: "Mobs Entering Window:\n",
                         author: {
                             name: 'MeanBot',
-                            icon_url: 'hhttps://i.imgur.com/tYfYIy3.png'
+                            icon_url: 'https://i.imgur.com/tYfYIy3.png'
                         },
                         description: "In 20 minutes:",
                         fields: rows.map((row) => {

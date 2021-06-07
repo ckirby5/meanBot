@@ -64,5 +64,11 @@
         "permissions": "all",
         "type": "both",
         "role": "raider"
+    },
+    "alias": {
+        "action": "utility/alias",
+        "permissions": "all",
+        "type": "both",
+        "role": "raider"
     }
 }

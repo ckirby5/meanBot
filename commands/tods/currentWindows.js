@@ -34,11 +34,11 @@ exports.run = function(bot, db, message) {
 
                         const numberOfTicksFromStart = Math.abs(Math.ceil(fromStart/interval));
                         const numberOfTicksToEnd = Math.ceil(toEnd/interval);
-                        const positiveTime = Math.abs(fromStart);
+                        const positiveTime = Math.abs(toEnd);
                         const timeInWindow = `${Math.floor(positiveTime/60)} hours and ${Math.floor(positiveTime%60)} minutes`
                         return { 
                             name: `${row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable ?  ':handbag:' : ':tractor:'} ${row.name} (${window})`, 
-                            value: `\nTime in Window: ${timeInWindow}\n\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}`
+                            value: `\nRemaining Window: ${timeInWindow}\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}\n`
                         }
                     }
                 )).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");

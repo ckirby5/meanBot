@@ -219,9 +219,6 @@ exports.run = function(message, args, bot, db) {
     
     
     switch(args) {
-        case 'aliases':
-            aliases();
-            break;
         case "window":
             window();
             break;

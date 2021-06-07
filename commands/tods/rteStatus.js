@@ -32,7 +32,7 @@ exports.run = function(bot, db, message) {
                                 value: rte.rters && rte.rters.length > 0 ? rte.rters.map(rter => `${rter.role} : ${rter.who}`) : 'No RTE currently set.'
                             }
                         }
-                    )).setTimestamp().setFooter("/nThese are currently in RTE! Be prepared!")
+                    )).setTimestamp().setFooter("These are current RTE roles filled!")
                     bot.channels.cache.get(config.activeRteChannel).send(embed);
 
         }
