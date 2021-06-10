@@ -5,7 +5,7 @@ const config = require("../../config.json");
 
 exports.run = async (message, args, bot, db) => {
     try {
-        const rows = await db.query("SELECT t.name, a.name AS 'alias' FROM meanBot.aliases a JOIN meanBot.targets t ON t.targetId = a.targetId ORDER BY t.name");
+        const rows = await db.query("SELECT t.name, a.name AS 'alias' FROM aliases a JOIN targets t ON t.targetId = a.targetId ORDER BY t.name");
         if (rows.length > 0){
             const map = new Map();
             for (const item of rows) {

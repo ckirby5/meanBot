@@ -6,7 +6,7 @@ const config = require("../../config.json");
 exports.run = async (bot, db, message) => {
     try {
         const timeStamp = moment();
-        const rows = await db.query("SELECT t.name, t.windowStart, t.windowEnd, t.variance, t.tracker, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM meanBot.targets t LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE  (?  BETWEEN t.windowStart AND t.windowEnd) AND t.isCamp = 0 ORDER BY t.windowStart ASC;", timeStamp.toDate())
+        const rows = await db.query("SELECT t.name, t.windowStart, t.windowEnd, t.variance, t.tracker, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId WHERE  (?  BETWEEN t.windowStart AND t.windowEnd) AND t.isCamp = 0 ORDER BY t.windowStart ASC;", timeStamp.toDate())
 
         if(rows.length > 0) {
             const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Mobs In Window\n")

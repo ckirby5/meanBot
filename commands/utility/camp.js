@@ -10,7 +10,7 @@ exports.run = async (message, args, bot, db) => {
         if (arguments.length == 3) {
             tracker = arguments[2];
         }
-        const rows = await db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime, t.tracker FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d ON t.todId = d.todId WHERE a.name = ? AND t.isCamp = 1;", campName.trim());
+        const rows = await db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime, t.tracker FROM targets t JOIN aliases a ON a.targetId = t.targetId LEFT JOIN tod d ON t.todId = d.todId WHERE a.name = ? AND t.isCamp = 1;", campName.trim());
         if (!command) {
             message.reply("Are you starting or stopping your camp?");
         }
@@ -22,7 +22,7 @@ exports.run = async (message, args, bot, db) => {
             trackerName = null;
         }
         if (rows[0] !== null && rows[0] !== undefined) {
-            await db.query("UPDATE meanBot.targets SET tracker = ? WHERE targetId = ?", [trackerName, rows[0].targetId]);
+            await db.query("UPDATE targets SET tracker = ? WHERE targetId = ?", [trackerName, rows[0].targetId]);
             message.reply("", {
                 embed :{
                     color: "#0099ff",

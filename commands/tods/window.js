@@ -7,8 +7,8 @@ exports.run = async (message, args, bot, db) => {
         let arg = args.split(" ");
         let mobName = arg[0];
         let answer = arg.slice(1, arg.length).join(" ");
-        const roles = await db.query("SELECT id, name from meanBot.role;");
-        const rows = await db.query("SELECT t.name, t.variance, t.windowStart, t.windowEnd, t.targetURL, t.RTERoles, d1.killedBy, d2.killedBy AS 'lastKilledBy', d1.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE a.name = ?;", args);
+        const roles = await db.query("SELECT id, name from role;");
+        const rows = await db.query("SELECT t.name, t.variance, t.windowStart, t.windowEnd, t.targetURL, t.RTERoles, d1.killedBy, d2.killedBy AS 'lastKilledBy', d1.tod FROM targets t JOIN aliases a ON a.targetId = t.targetId LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId WHERE a.name = ?;", args);
         if (rows[0] !== null && rows[0] !== undefined) {
             message.reply("", {
                 embed: {

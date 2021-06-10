@@ -6,8 +6,8 @@ const config = require("../../config.json");
 exports.run = async (message, args, bot, db) => {
     try{
         const now = moment();
-        const targetResults = await db.query("SELECT t.name, t.windowStart as 'date', t.windowEnd as 'end', t.variance, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM meanBot.targets t LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId where windowStart between ? and ?", [moment().startOf('day').toDate(),moment().endOf('day').add(7, 'days').toDate()]);
-        const eventResults = await db.query("SELECT name, date FROM meanBot.events where date between ? and ? AND deletedBy IS null", [moment().toDate(),moment().add(7, 'days').toDate()]);
+        const targetResults = await db.query("SELECT t.name, t.windowStart as 'date', t.windowEnd as 'end', t.variance, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId where windowStart between ? and ?", [moment().startOf('day').toDate(),moment().endOf('day').add(7, 'days').toDate()]);
+        const eventResults = await db.query("SELECT name, date FROM events where date between ? and ? AND deletedBy IS null", [moment().toDate(),moment().add(7, 'days').toDate()]);
     
         const combinedArray = [];
         targetResults.map((tr) => {

@@ -34,12 +34,12 @@ exports.run = async (message, args, bot, db) => {
     try{
         const date = moment(params.date);
         if(params.hasOwnProperty('add') && params.add){
-            await db.query("INSERT INTO meanBot.events (name, date, updatedBy) VALUES (?, ?, ?);", [params.name, date.toDate(), message.author.id]);
+            await db.query("INSERT INTO events (name, date, updatedBy) VALUES (?, ?, ?);", [params.name, date.toDate(), message.author.id]);
             message.reply(`Added ${params.name} to the schedule on ${date.format('LLL')}`);
             
         }
         if(params.hasOwnProperty('remove') && params.remove){
-            db.query("UPDATE meanBot.events SET deletedBy = ? where name = ? and date = ?;", [message.author.id, params.name, date.toDate()]);
+            db.query("UPDATE events SET deletedBy = ? where name = ? and date = ?;", [message.author.id, params.name, date.toDate()]);
             message.reply(`Removed ${params.name} on ${date.format('LLL')} from the schedule`);
         }
     } catch(ex) {

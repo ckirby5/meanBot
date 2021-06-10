@@ -37,9 +37,9 @@ exports.run = async (message, args, bot, db) => {
 
     try {
         const date = moment(params.date);
-        const targetResults = await db.query("SELECT t.targetId, t.RTERoles FROM meanBot.targets t LEFT JOIN meanBot.aliases a ON t.targetId = a.targetId WHERE a.name = ?", params.mob);
+        const targetResults = await db.query("SELECT t.targetId, t.RTERoles FROM targets t LEFT JOIN aliases a ON t.targetId = a.targetId WHERE a.name = ?", params.mob);
         if (targetResults && targetResults.length > 0) {
-            const roleResults = await db.query("SELECT id FROM meanBot.role WHERE name = ?", params.role);
+            const roleResults = await db.query("SELECT id FROM role WHERE name = ?", params.role);
             if (roleResults && roleResults.length > 0) {
                 const target = targetResults[0];
                 const role = roleResults[0];
@@ -49,11 +49,11 @@ exports.run = async (message, args, bot, db) => {
                 console.log("$$$$$$$$ " + roleInAllowedRoles);
                 if (roleInAllowedRoles) {
                     if(params.hasOwnProperty('start') && params.start){
-                        await db.query("INSERT INTO meanBot.rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()])
+                        await db.query("INSERT INTO rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()])
                         message.reply(`Added ${params.char} to RTE`);
                     }
                     if(params.hasOwnProperty('stop') && params.stop){
-                        await db.query("UPDATE meanBot.rte SET completed = ? WHERE who =? AND roleId = ? AND targetId = ?;", [moment().toDate(), params.char, role.id, target.targetId]);
+                        await db.query("UPDATE rte SET completed = ? WHERE who =? AND roleId = ? AND targetId = ?;", [moment().toDate(), params.char, role.id, target.targetId]);
                         message.reply(`Removed ${params.char} from RTE`);
                     }
                     

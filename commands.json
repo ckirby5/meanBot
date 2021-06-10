@@ -3,7 +3,7 @@
         "action": "phones/batphone",
         "permissions": "all",
         "type": "both",
-        "role": "tracker"
+        "role": "batphoners"
     },
     "sp": {
         "action": "phones/sockphone",
@@ -27,7 +27,7 @@
         "action": "utility/help",
         "permissions": "all",
         "type": "both",
-        "role": "member"
+        "role": "Member"
     },
     "camp": {
         "action": "utility/camp",
@@ -40,12 +40,6 @@
         "permissions": "all",
         "type": "both",
         "role": "scheduler"
-    },
-    "quake": {
-        "action": "tods/quake",
-        "permissions": "all",
-        "type": "both",
-        "role": "admin"
     },
     "schedule": {
         "action": "guildEvents/schedule",
@@ -63,6 +57,6 @@
         "action": "utility/alias",
         "permissions": "all",
         "type": "both",
-        "role": "admin"
+        "role": "leader"
     }
 }

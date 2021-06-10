@@ -128,7 +128,7 @@ describe(('run '), () => {
 
         await action.run(testmessage, args, bot, db)
 
-        expect(mockQuery).toHaveBeenCalledWith("INSERT INTO meanBot.events (name, date, updatedBy) VALUES (?, ?, ?);", ["hate", new Date('6/1/2021 19:00'), 'test-user-id'])
+        expect(mockQuery).toHaveBeenCalledWith("INSERT INTO events (name, date, updatedBy) VALUES (?, ?, ?);", ["hate", new Date('6/1/2021 19:00'), 'test-user-id'])
         expect(mockSend).toHaveBeenCalledWith("Added hate to the schedule on June 1, 2021 7:00 PM")
     })
     test('-remove should call db AND write return message', async () => {
@@ -153,7 +153,7 @@ describe(('run '), () => {
 
         await action.run(testmessage, args, bot, db)
 
-        expect(mockQuery).toHaveBeenCalledWith("UPDATE meanBot.events SET deletedBy = ? where name = ? and date = ?;", ["test-user-id", "hate", new Date('6/1/2021 19:00')])
+        expect(mockQuery).toHaveBeenCalledWith("UPDATE events SET deletedBy = ? where name = ? and date = ?;", ["test-user-id", "hate", new Date('6/1/2021 19:00')])
         expect(mockSend).toHaveBeenCalledWith("Removed hate on June 1, 2021 7:00 PM from the schedule")
     })
 })
