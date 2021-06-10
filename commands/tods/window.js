@@ -3,7 +3,6 @@ const bot = new Discord.Client();
 const moment = require("moment");
 
 exports.run = async (message, args, bot, db) => {
-    console.log(message.author);
     try {
         let arg = args.split(" ");
         let mobName = arg[0];
@@ -11,7 +10,7 @@ exports.run = async (message, args, bot, db) => {
         const roles = await db.query("SELECT id, name from meanBot.role;");
         const rows = await db.query("SELECT t.name, t.variance, t.windowStart, t.windowEnd, t.targetURL, t.RTERoles, d1.killedBy, d2.killedBy AS 'lastKilledBy', d1.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE a.name = ?;", args);
         if (rows[0] !== null && rows[0] !== undefined) {
-            bot.channels.cache.get('833859329589379095').send("", {
+            message.reply("", {
                 embed: {
                     color: "#0099ff",
                     title: rows[0].name,
@@ -54,14 +53,10 @@ exports.run = async (message, args, bot, db) => {
                         }
                     ],
                     timestamp: new Date()
-                    /*rows[0].name + " \nTime of Death: " +
-                    moment(rows[0].tod).format('LLL') + "\n Enters Window: " + moment(rows[0].windowStart).format('LLL') +
-                    "\nWindow Ends: " + moment(rows[0].windowEnd).format('LLL') +
-                    `\nWindow Length: ${rows[0].variance > 60 ? (rows[0].variance * 2)/60 : rows[0].variance * 2} ${rows[0].variance < 60 ? ' minutes' : ' hours'}`*/
                 }
             });
         } else {
-            bot.channels.cache.get('833859329589379095').send("", {
+            message.reply("", {
                 embed: {
                     color: "#0099ff",
                     title: "You specified an invalid target! Fuck you!",

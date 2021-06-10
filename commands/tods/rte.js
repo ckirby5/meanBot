@@ -7,32 +7,32 @@ exports.run = async (message, args, bot, db) => {
     const params = parse(args);
 
     if(params.hasOwnProperty('default')) {
-        bot.channels.cache.get('833859329589379095').send( "No arguments specified");
+        message.reply( "No arguments specified");
         return;
     }
     
     if(params.hasOwnProperty('start') && params.hasOwnProperty('stop')) {
-        bot.channels.cache.get('833859329589379095').send("Too many commands specified");
+        message.reply("Too many commands specified");
         return;
     }
 
     if(!params.hasOwnProperty('start') && !params.hasOwnProperty('stop')) {
-        bot.channels.cache.get('833859329589379095').send("No start or stop specified");
+        message.reply("No start or stop specified");
         return;
     }
 
     if(!params.hasOwnProperty('char')) {
-        bot.channels.cache.get('833859329589379095').send("No character name specified");
+        message.reply("No character name specified");
         return;
     }
 
     if(!params.hasOwnProperty('role')) {
-        bot.channels.cache.get('833859329589379095').send("No role specified");
+        message.reply("No role specified");
         return;
     }
 
     if(!params.hasOwnProperty('mob')) {
-        bot.channels.cache.get('833859329589379095').send("No mob specified")
+        message.reply("No mob specified")
     }
 
     try {
@@ -50,23 +50,23 @@ exports.run = async (message, args, bot, db) => {
                 if (roleInAllowedRoles) {
                     if(params.hasOwnProperty('start') && params.start){
                         await db.query("INSERT INTO meanBot.rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()])
-                        bot.channels.cache.get('833859329589379095').send(`Added ${params.char} to RTE`);
+                        message.reply(`Added ${params.char} to RTE`);
                     }
                     if(params.hasOwnProperty('stop') && params.stop){
                         await db.query("UPDATE meanBot.rte SET completed = ? WHERE who =? AND roleId = ? AND targetId = ?;", [moment().toDate(), params.char, role.id, target.targetId]);
-                        bot.channels.cache.get('833859329589379095').send(`Removed ${params.char} from RTE`);
+                        message.reply(`Removed ${params.char} from RTE`);
                     }
                     
                     setTimeout(() => {rteUpdateAction.run(bot, db), 1000})
                 } else {
-                    bot.channels.cache.get('833859329589379095').send('This role is invalid for this RTE');
+                    message.reply('This role is invalid for this RTE');
                 }
             } else {
-                bot.channels.cache.get('833859329589379095').send('This is not a valid RTE role');
+                message.reply('This is not a valid RTE role');
             }
         }
         else {
-            bot.channels.cache.get('833859329589379095').send('This is not a valid target name');
+            message.reply('This is not a valid target name');
         }
 
     } catch (error) {

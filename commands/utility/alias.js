@@ -29,7 +29,7 @@ exports.run = async (message, args, bot, db) => {
                 }
             
                 
-                bot.channels.cache.get('851569391882469476').send("", {
+                bot.channels.cache.get(config.aliasesChannel).send("", {
                     embed: {
                         color: "#0099ff",
                         title: "Aliases for targets\n",

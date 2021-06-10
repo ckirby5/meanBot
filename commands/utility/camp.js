@@ -12,7 +12,7 @@ exports.run = async (message, args, bot, db) => {
         }
         const rows = await db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime, t.tracker FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d ON t.todId = d.todId WHERE a.name = ? AND t.isCamp = 1;", campName.trim());
         if (!command) {
-            bot.channels.cache.get('833859329589379095').send("Are you starting or stopping your camp?");
+            message.reply("Are you starting or stopping your camp?");
         }
         let trackerName = null;
         if(command == 'start') {
@@ -23,7 +23,7 @@ exports.run = async (message, args, bot, db) => {
         }
         if (rows[0] !== null && rows[0] !== undefined) {
             await db.query("UPDATE meanBot.targets SET tracker = ? WHERE targetId = ?", [trackerName, rows[0].targetId]);
-            bot.channels.cache.get('833859329589379095').send("", {
+            message.reply("", {
                 embed :{
                     color: "#0099ff",
                     title: `Camp ${command}ed`,
@@ -44,7 +44,7 @@ exports.run = async (message, args, bot, db) => {
             })
         }
         else {
-            bot.channels.cache.get('833859329589379095').send("Invalid target specified! Fuck you!");
+            message.reply("Not a valid camp! Do you even know Norrath? Fuck you!");
         }
 
     } catch (error) {
