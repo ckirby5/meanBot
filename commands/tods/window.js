@@ -3,6 +3,7 @@ const bot = new Discord.Client();
 const moment = require("moment");
 
 exports.run = async (message, args, bot, db) => {
+    console.log(message.author);
     try {
         let arg = args.split(" ");
         let mobName = arg[0];

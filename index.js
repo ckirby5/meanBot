@@ -9,14 +9,14 @@ const bot = new Discord.Client();
 
 let pool;
 
-const db = new promiseDb.Database(mysql.createConnection({
+const db = new promiseDb({
   host: config.mysqlHost,
   user: config.mysqlUser,
   password: config.mysqlPass,
   database: config.mysqlDB,
   charset: "utf8mb4"
 
-}));
+});
 
 async function checkIfAuthorInRole(roleName, message) {
   const guild = await bot.guilds.fetch(config.guildId);

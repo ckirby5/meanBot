@@ -3,7 +3,7 @@ const bot = new Discord.Client();
 const moment = require("moment");
 const config = require("../../config.json");
 
-exports.run = function(bot, db, message) {
+exports.run = async (bot, db, message) => {
     try {
         const timeStamp = moment().add(24, 'hours');
         const rows = await db.query("SELECT t.name, t.windowStart, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM meanBot.targets t LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE t.windowStart <= ? AND t.windowStart > ? ORDER BY t.windowStart ASC;", [timeStamp.toDate(), new Date()]);

@@ -19,25 +19,23 @@ exports.run = async (message, args, bot, db) => {
             else if(val.startsWith('[') && val.endsWith(']')){actualTod = val.replace('[', '').replace(']','')}
             else { mobName  = val }
         })
-        console.log(mobName);
-        console.log(modValue);
         
         const rows = await db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime, d.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d ON t.todId = d.todId WHERE a.name = ?;", mobName.trim());
         if (rows[0] !== null && rows[0] !== undefined) {
             const duration = moment.duration(moment().diff(moment(rows[0].tod)));
-            /*if(duration.asMinutes() < 5) {
-                bot.channels.cache.get('833859329589379095').send("A value near this time has already been added");
-                return;
-            }*/
             let tod = moment().subtract(modValue, 'minutes');
             if (actualTod) {
                 tod = moment(actualTod);
                 if(isNaN(tod)) {
                     tod = null;
                 }
+                if (tod.isAfter()) {
+                    bot.channels.cache.get('833859329589379095').send("How do you know the future tod? Are you a GM? Fuck you!");
+                    return
+                }
             }
             if(tod){
-                await db.query("INSERT INTO meanBot.tod (tod, targetId, killedBy, previousTodId, recordedBy) VALUES (?, ?, ?, ?, ?);", [tod.toDate(), rows[0].targetId, killedByValue, rows[0].todId, message.author.id]);
+                const insertResult = await db.query("INSERT INTO meanBot.tod (tod, targetId, killedBy, previousTodId, recordedBy) VALUES (?, ?, ?, ?, ?);", [tod.toDate(), rows[0].targetId, killedByValue, rows[0].todId, message.author.id]);
                 let killTimeStart = moment();
                 let killTimeEnd = moment();
                 if (actualTod) {
@@ -47,7 +45,7 @@ exports.run = async (message, args, bot, db) => {
                 const windowStart = moment(killTimeStart.add(rows[0].respawnTime, 'hours').subtract(rows[0].variance, 'minutes')).subtract(modValue, 'minutes');
                 const windowEnd = moment(killTimeEnd.add(rows[0].respawnTime, 'hours').add(rows[0].variance, 'minutes')).subtract(modValue, 'minutes');
 
-                const result = await db.query("UPDATE meanBot.targets SET todId = ?, windowStart = ?, windowEnd = ?, tracker = null WHERE targetId = ?;", [result.insertId, windowStart.toDate(), windowEnd.toDate(), rows[0].targetId]);
+                const result = await db.query("UPDATE meanBot.targets SET todId = ?, windowStart = ?, windowEnd = ?, tracker = null WHERE targetId = ?;", [insertResult.insertId, windowStart.toDate(), windowEnd.toDate(), rows[0].targetId]);
                 if(result.affectedRows == 1) {
                     bot.channels.cache.get('842187750068191243').send("", {
                         embed: {
