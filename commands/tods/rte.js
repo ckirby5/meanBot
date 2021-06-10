@@ -1,8 +1,9 @@
 const parse = require('../../helpers/argParser')
 const moment = require("moment");
 const config = require("../../config.json");
+const rteUpdateAction = require('../../commands/tods/rteStatus');
 
-exports.run = function(message, args, bot, db) {
+exports.run = async (message, args, bot, db) => {
     const params = parse(args);
 
     if(params.hasOwnProperty('default')) {
@@ -34,52 +35,41 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("No mob specified")
     }
 
-
-    const date = moment(params.date);
-    db.query("SELECT t.targetId, t.RTERoles FROM meanBot.targets t LEFT JOIN meanBot.aliases a ON t.targetId = a.targetId WHERE a.name = ?", params.mob, 
-    function(err, targetResults) {
-        if(err) {
-            console.log(err);
-        }
+    try {
+        const date = moment(params.date);
+        const targetResults = await db.query("SELECT t.targetId, t.RTERoles FROM meanBot.targets t LEFT JOIN meanBot.aliases a ON t.targetId = a.targetId WHERE a.name = ?", params.mob);
         if (targetResults && targetResults.length > 0) {
-            db.query("SELECT id FROM meanBot.role WHERE name = ?", params.role,
-            function(err, roleResults) {
-                if(err) {
-                    console.log(err);
-                }
-                if (roleResults && roleResults.length > 0) {
-                    const target = targetResults[0];
-                    const role = roleResults[0];
-                    const allowedRoles = target.RTERoles.split(',');
-                    const roleInAllowedRoles = allowedRoles.indexOf(role.id.toString()) != -1;
-                    console.log(allowedRoles);
-                    console.log("$$$$$$$$ " + roleInAllowedRoles);
-                    if (roleInAllowedRoles) {
-                        if(params.hasOwnProperty('start') && params.start){
-                            db.query("INSERT INTO meanBot.rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()],
-                            function(err, result) {
-                                if (err) throw err 
-                                bot.channels.cache.get('833859329589379095').send(`Added ${params.char} to RTE`);
-                            })
-                        }
-                        if(params.hasOwnProperty('stop') && params.stop){
-                            db.query("UPDATE meanBot.rte SET completed = ? WHERE who =? AND roleId = ? AND targetId = ?;", [moment().toDate(), params.char, role.id, target.targetId],
-                            function(err, result) {
-                                if (err) throw err 
-                                bot.channels.cache.get('833859329589379095').send(`Removed ${params.char} from RTE`);
-                            })
-                        }
-                        const rteUpdateAction = require('../../commands/tods/rteStatus');
-                        setTimeout(() => {rteUpdateAction.run(bot, db), 1000})
-                    } else {
-                        bot.channels.cache.get('833859329589379095').send('This role is invalid for this RTE');
+            const roleResults = await db.query("SELECT id FROM meanBot.role WHERE name = ?", params.role);
+            if (roleResults && roleResults.length > 0) {
+                const target = targetResults[0];
+                const role = roleResults[0];
+                const allowedRoles = target.RTERoles.split(',');
+                const roleInAllowedRoles = allowedRoles.indexOf(role.id.toString()) != -1;
+                console.log(allowedRoles);
+                console.log("$$$$$$$$ " + roleInAllowedRoles);
+                if (roleInAllowedRoles) {
+                    if(params.hasOwnProperty('start') && params.start){
+                        await db.query("INSERT INTO meanBot.rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()])
+                        bot.channels.cache.get('833859329589379095').send(`Added ${params.char} to RTE`);
                     }
+                    if(params.hasOwnProperty('stop') && params.stop){
+                        await db.query("UPDATE meanBot.rte SET completed = ? WHERE who =? AND roleId = ? AND targetId = ?;", [moment().toDate(), params.char, role.id, target.targetId]);
+                        bot.channels.cache.get('833859329589379095').send(`Removed ${params.char} from RTE`);
+                    }
+                    
+                    setTimeout(() => {rteUpdateAction.run(bot, db), 1000})
                 } else {
-                    bot.channels.cache.get('833859329589379095').send('This is not a valid RTE role');
+                    bot.channels.cache.get('833859329589379095').send('This role is invalid for this RTE');
                 }
-            }) 
-        } else {
+            } else {
+                bot.channels.cache.get('833859329589379095').send('This is not a valid RTE role');
+            }
+        }
+        else {
             bot.channels.cache.get('833859329589379095').send('This is not a valid target name');
         }
-    })
+
+    } catch (error) {
+        console.log(error)
+    }
 } 

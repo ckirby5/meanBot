@@ -2,17 +2,12 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 const moment = require("moment");
 const config = require("../../config.json");
+const currentWindowDeleteMessagesAction = require('../../commands/chat/chatDelete');
 
-exports.run = function(bot, db, message) {
-    const timeStamp = moment();
-
-    db.query("SELECT ro.name AS 'role', r.who, t.name AS 'name' FROM meanBot.rte r LEFT JOIN meanBot.targets t ON r.targetId = t.targetId LEFT JOIN meanBot.role ro ON r.roleId = ro.id WHERE completed IS null;",
-    function(err, results) {
-        if (err) {
-            console.log("Error with pulling rteStatus: ", err);
-        }
+exports.run = async (bot, db, message) => {
+    try {
+        const results = await db.query("SELECT ro.name AS 'role', r.who, t.name AS 'name' FROM meanBot.rte r LEFT JOIN meanBot.targets t ON r.targetId = t.targetId LEFT JOIN meanBot.role ro ON r.roleId = ro.id WHERE completed IS null;");    
         if (results.length > 0) {
-            const currentWindowDeleteMessagesAction = require('../../commands/chat/chatDelete');
             currentWindowDeleteMessagesAction.run(bot, config.activeRteChannel, config.messagesToDelete);
             const rteMobs = [...new Set(results.map(rte => rte.name))];
                     const activeRte = rteMobs.map((mob) =>{
@@ -36,6 +31,7 @@ exports.run = function(bot, db, message) {
                     bot.channels.cache.get(config.activeRteChannel).send(embed);
 
         }
+    } catch (error) {
+        console.log(error)
     }
-    )
 }

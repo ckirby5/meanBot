@@ -1,6 +1,7 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const mysql = require("mysql");
+const promiseDb = require('./helpers/promise-db')
 
 const commands = require("./commands.json");
 
@@ -8,7 +9,7 @@ const bot = new Discord.Client();
 
 let pool;
 
-const db = mysql.createConnection({
+const db = new promiseDb({
   host: config.mysqlHost,
   user: config.mysqlUser,
   password: config.mysqlPass,
