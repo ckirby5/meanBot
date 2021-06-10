@@ -68,7 +68,7 @@ bot.on("message", async (message) => {
       }
       if(await checkIfAuthorInRole(commands[commandName].role, message)){
         let action = require("./commands/" + commands[commandName].action);
-        action.run(message, args, bot, db, commands[commandName].extra);
+        await action.run(message, args, bot, db, commands[commandName].extra);
       }
       else {
         message.channel.send("You do not have the proper role to use this command!");

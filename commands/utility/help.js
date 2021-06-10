@@ -3,6 +3,7 @@ const bot = new Discord.Client();
 const moment = require("moment");
 
 exports.run = function(message, args, bot, db) {
+    console.log(args);
     const window = () => {
         message.reply("", {
             embed: {
@@ -183,8 +184,26 @@ exports.run = function(message, args, bot, db) {
         case "rte":
             rte();
             break;
-        default:
+        case "sanity":
+            message.reply("", {
+                embed: {
+                    color: "#0099ff",
+                    title: "Window Command (Member Role)",
+                    author: {
+                        name: "MeanBot",
+                        icon_url: "https://i.imgur.com/tYfYIy3.png"
+                    },
+                    fields: {
+                        name: "SANITY:",
+                        value: "AM I SANE?"
+                    }
+                }
+            });
+            break;
+        case "commands":
             df();
+            break;
+        default:
             break;
     }
 }
