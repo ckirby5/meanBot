@@ -1,11 +1,10 @@
 const moment = require("moment");
 
-exports.run = function(message, args, bot, db) {
-    db.query("UPDATE meanBot.targets SET windowEnd = ?, tracker = null WHERE isAffectedByQuake = 1;", [moment().toDate()],
-        function(err, result) {
-            if (err) {
-                console.error("db error occured: " + err);
-            }
-            bot.channels.cache.get('833859329589379095').send("Quake started. All windows ended.");
-    })
+exports.run = async (message, args, bot, db) => {
+    try {
+        await db.query("UPDATE meanBot.targets SET windowStart = ?, windowEnd = ?, tracker = null WHERE isAffectedByQuake = 1;", [moment().toDate(), moment.toDate()])
+        bot.channels.cache.get('833859329589379095').send("Quake started. All windows ended.");
+    } catch (ex) {
+        console.log(ex)
+    }
 }

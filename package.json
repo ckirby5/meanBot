@@ -6,7 +6,7 @@
         "bot",
         "nodejs"
     ],
-    "author": "Christian Kirby <christian.h.kirby@gmail.com>",
+    "author": "Christian Kirby <christian.h.kirby@gmail.com> Alex Wallace<alexrwallace@gmail.com>",
     "repository": {
         "type": "git",
         "url": "https://github.com/ckirby5/meanBot"

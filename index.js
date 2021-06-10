@@ -1,6 +1,7 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const mysql = require("mysql");
+const promiseDb = require('./helpers/promise-db')
 
 const commands = require("./commands.json");
 
@@ -8,7 +9,7 @@ const bot = new Discord.Client();
 
 let pool;
 
-const db = mysql.createConnection({
+const db = new promiseDb({
   host: config.mysqlHost,
   user: config.mysqlUser,
   password: config.mysqlPass,
@@ -17,14 +18,24 @@ const db = mysql.createConnection({
 
 });
 
+async function checkIfAuthorInRole(roleName, message) {
+  const guild = await bot.guilds.fetch(config.guildId);
+  const role = guild.roles.cache.find(role => role.name === roleName);
+  const memberArray = Array.from(role.members, ([name, value]) => ({...value}));
+  const memberInArray = memberArray.find(member => member.user.username == message.author.username);
+  return memberInArray != undefined;
+}
+
 function twentyFourHourRunner() {
   const currentWindowDeleteMessagesAction = require('./commands/chat/chatDelete');
-  currentWindowDeleteMessagesAction.run(bot, config.upcomingWindowsChannel, config.messagesToDelete);
-  currentWindowDeleteMessagesAction.run(bot, config.currentWindowsChannel, config.messagesToDelete);
+  currentWindowDeleteMessagesAction.run(bot, config.windowsChannel, config.messagesToDelete);
+  currentWindowDeleteMessagesAction.run(bot, config.campCheckChannel, config.messagesToDelete);
   const twentyFourHourWindowAction = require("./commands/tods/upcomingWindows");
   twentyFourHourWindowAction.run(bot, db);
   const currentWindowRunnerAction = require("./commands/tods/currentWindows");
   currentWindowRunnerAction.run(bot, db);
+  const currentCampsBeingHeldAction = require('./commands/utility/currentCamps');
+  currentCampsBeingHeldAction.run(bot, db);
 }
 
 function oneMinuteRunner() {
@@ -39,7 +50,7 @@ bot.once("ready", () => {
     console.log("meanBot is ready!");
 });
 
-bot.on("message", (message) => {
+bot.on("message", async (message) => {
     if (message.channel.type != "text") {
       return;
     }
@@ -55,8 +66,13 @@ bot.on("message", (message) => {
       if (commands[commandName].type === "dm") {
         return;
       }
-      let action = require("./commands/" + commands[commandName].action);
-      action.run(message, args, bot, db, commands[commandName].extra);
+      if(await checkIfAuthorInRole(commands[commandName].role, message)){
+        let action = require("./commands/" + commands[commandName].action);
+        action.run(message, args, bot, db, commands[commandName].extra);
+      }
+      else {
+        message.channel.send("You do not have the proper role to use this command!");
+      }
     }
 });
 

@@ -28,7 +28,7 @@ exports.run = function(message, args, bot, db) {
                         title: "Aliases for targets\n",
                         author: {
                             name: "MeanBot",
-                            icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                            icon_url: "https://i.imgur.com/tYfYIy3.png"
                         },
                         fields: fields.map((f) => {
                             return {
@@ -48,10 +48,10 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Window Command",
+                title: "Window Command (Member Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !window command:",
@@ -60,15 +60,14 @@ exports.run = function(message, args, bot, db) {
             }
         });
     }
-    //For Seal Team extact ToD use: !tod mobname\nFor Seal Team late entry ToD use: !tod mobName, [MM/DD/YYYY HH:MM:SS], example [Thu May 27 22:42:07 2021]\nFor non Seal Team exact ToD use: !tod mobName, $guildName\nFor non Seal Team late entry ToD use: !tod mobName, [MM/DD/YYYY HH:MM:SS], $guildName
     const tod = () => {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Tod Command - All ToDs must use EST!",
+                title: "Tod Command - All ToDs must use EST! (Member Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: [
                     {
@@ -95,10 +94,10 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Batphone Command",
+                title: "Batphone Command (Tracker Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !bp command:",
@@ -111,10 +110,10 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Sockphone Command",
+                title: "Sockphone Command (Raider Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !bp command:",
@@ -127,15 +126,21 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Camp Command",
+                title: "Camp Command (Member Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
-                fields: {
-                    name: "How to use the !camp command:",
-                    value: "Use !camp start campName\nExample: !camp start idols"
-                }
+                fields: [
+                    {
+                        name: "How to use the !camp start command",
+                        value: "Use !camp start campName\nExample: !camp start idols"
+                        },
+                        {
+                        name: "How to use the !camp end command",
+                        value: "Use !camp end campName\nExample: !camp end idols"
+                        }
+                ]
             }
         });
     }
@@ -143,10 +148,10 @@ exports.run = function(message, args, bot, db) {
         bot.channels.cache.get('833859329589379095').send("", {
             embed: {
                 color: "#0099ff",
-                title: "Event Command",
+                title: "Event Command (Scheduler Role)",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "How to use the !event command:",
@@ -162,21 +167,58 @@ exports.run = function(message, args, bot, db) {
                 title: "Please use !help (command) for more info\n",
                 author: {
                     name: "MeanBot",
-                    icon_url: "https://i.imgur.com/HcURdiB.jpg"
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
                 },
                 fields: {
                     name: "Available Commands",
-                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp"
+                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent\nrte"
                 }
             }
-        })
+        });
     }
+    const track = () => {
+        bot.channels.cache.get('833859329589379095').send("",{
+            embed: {
+                color: "#0099ff",
+                title: "Track Command (Raider Role)",
+                author: {
+                    name: "MeanBot",
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
+                },
+                fields: {
+                    name: "How to use the !track command",
+                    value: "Use !track alias @yourself\nExample: !track naggy @meanBot"
+                }
+            }
+        });
+    }
+
+    const rte = () => {
+        bot.channels.cache.get('833859329589379095').send("",{
+            embed: {
+                color: "#0099ff",
+                title: "RTE Command (Raider Role)",
+                author: {
+                    name: "MeanBot",
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
+                },
+                fields: [
+                    {
+                    name: "How to use the !rte start command",
+                    value: "Use !rte -start -char charName -role role -mob mobName\nExample: !rte -start -char Meaners -role Tracker -mob Phinny"
+                    },
+                    {
+                    name: "How to use the !rte stop command",
+                    value: "Use !rte -stop -char charName -role role -mob mobName\nExample: !rte -stop -char Meaners -role Tracker -mob Phinny"
+                    }
+                ]
+            }
+        });
+    }
+
     
     
     switch(args) {
-        case 'aliases':
-            aliases();
-            break;
         case "window":
             window();
             break;
@@ -194,6 +236,12 @@ exports.run = function(message, args, bot, db) {
             break;
         case "event":
             event();
+            break;
+        case "track":
+            track();
+            break;
+        case "rte":
+            rte();
             break;
         default:
             df();

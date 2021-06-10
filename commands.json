@@ -1,52 +1,68 @@
 {
-    "8ball": {
-        "action": "fun/8ball",
-        "permissions": "all",
-        "type": "both"
-    },
     "bp": {
         "action": "phones/batphone",
         "permissions": "all",
-        "type": "both"
+        "type": "both",
+        "role": "tracker"
     },
     "sp": {
         "action": "phones/sockphone",
         "permissions": "all",
-        "type": "both"
+        "type": "both",
+        "role": "raider"
     },
     "window": {
         "action": "tods/window",
         "permissions": "all",
-        "type": "both"
+        "type": "both",
+        "role": "member"
     },
     "tod": {
         "action": "tods/tod",
         "permissions": "all",
-        "type": "both"
-    },
-    "track": {
-        "action": "tods/tracker",
-        "permissions": "all",
-        "type": "both"
+        "type": "both",
+        "role": "member"
     },
     "help": {
         "action": "utility/help",
         "permissions": "all",
-        "type": "both"
+        "type": "both",
+        "role": "member"
     },
     "camp": {
         "action": "utility/camp",
         "permissions": "all",
-        "type": "both"
+        "type": "both",
+        "role": "member"
     },
     "event": {
         "action": "guildEvents/event",
         "permissions": "all",
-        "type": "both"
+        "type": "both",
+        "role": "scheduler"
     },
     "quake": {
         "action": "tods/quake",
         "permissions": "all",
-        "type": "both"
+        "type": "both",
+        "role": "leader"
+    },
+    "schedule": {
+        "action": "guildEvents/schedule",
+        "permissions": "all",
+        "type": "both",
+        "role": "scheduler"
+    },
+    "rte": {
+        "action": "tods/rte",
+        "permissions": "all",
+        "type": "both",
+        "role": "raider"
+    },
+    "alias": {
+        "action": "utility/alias",
+        "permissions": "all",
+        "type": "both",
+        "role": "admin"
     }
 }
