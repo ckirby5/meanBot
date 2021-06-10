@@ -23,12 +23,6 @@
         "type": "both",
         "role": "member"
     },
-    "track": {
-        "action": "tods/tracker",
-        "permissions": "all",
-        "type": "both",
-        "role": "raider"
-    },
     "help": {
         "action": "utility/help",
         "permissions": "all",

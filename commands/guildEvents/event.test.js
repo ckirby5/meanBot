@@ -1,7 +1,12 @@
 const action = require('./event.js');
 
 describe(('run '), () => {
-    test('throws excetption with no argumetns', () => {
+    test('throws excetption with no argumetns', async () => {
+        const testmessage = {
+            author: {
+                id: 'test-user-id'
+            }
+        }
         const mockSend = jest.fn();
         const bot = {
             channels: {
@@ -12,12 +17,17 @@ describe(('run '), () => {
         }
         const args = '';
 
-        action.run('', args, bot, null)
+        await action.run(testmessage, args, bot, null)
 
         expect(mockSend).toHaveBeenCalled()
         expect(mockSend).toHaveBeenCalledWith("No arguments specified")
     });
-    test('throws excetption with no command', () => {
+    test('throws excetption with no command', async () => {
+        const testmessage = {
+            author: {
+                id: 'test-user-id'
+            }
+        }
         const mockSend = jest.fn();
         const bot = {
             channels: {
@@ -28,12 +38,17 @@ describe(('run '), () => {
         }
         const args = '-name hate -date 6/1/2021 19:00';
 
-        action.run('', args, bot, null)
+        await action.run(testmessage, args, bot, null)
 
         expect(mockSend).toHaveBeenCalled()
         expect(mockSend).toHaveBeenCalledWith("No command specified")
     });
-    test('throws excetption with multiple commands command', () => {
+    test('throws excetption with multiple commands command', async () => {
+        const testmessage = {
+            author: {
+                id: 'test-user-id'
+            }
+        }
         const mockSend = jest.fn();
         const bot = {
             channels: {
@@ -44,12 +59,17 @@ describe(('run '), () => {
         }
         const args = '-add -remove -name hate -date 6/1/2021 19:00';
 
-        action.run('', args, bot, null)
+        await action.run(testmessage, args, bot, null)
 
         expect(mockSend).toHaveBeenCalled()
         expect(mockSend).toHaveBeenCalledWith("Too many commands specified")
     });
-    test('throws excetption with no name', () => {
+    test('throws excetption with no name', async () => {
+        const testmessage = {
+            author: {
+                id: 'test-user-id'
+            }
+        }
         const mockSend = jest.fn();
         const bot = {
             channels: {
@@ -60,12 +80,17 @@ describe(('run '), () => {
         }
         const args = '-add -date 6/1/2021 19:00';
 
-        action.run('', args, bot, null)
+        await action.run(testmessage, args, bot, null)
 
         expect(mockSend).toHaveBeenCalled()
         expect(mockSend).toHaveBeenCalledWith("No event name specified")
     });
-    test('throws excetption with no date', () => {
+    test('throws excetption with no date', async () => {
+        const testmessage = {
+            author: {
+                id: 'test-user-id'
+            }
+        }
         const mockSend = jest.fn();
         const bot = {
             channels: {
@@ -76,12 +101,17 @@ describe(('run '), () => {
         }
         const args = '-add -name hate';
 
-        action.run('', args, bot, null)
+        await action.run(testmessage, args, bot, null)
 
         expect(mockSend).toHaveBeenCalled()
         expect(mockSend).toHaveBeenCalledWith("No event date specified")
     });
-    test('-add should call db AND write return message', () => {
+    test('-add should call db AND write return message', async () => {
+        const testmessage = {
+            author: {
+                id: 'test-user-id'
+            }
+        }
         const mockSend = jest.fn();
         const bot = {
             channels: {
@@ -91,19 +121,22 @@ describe(('run '), () => {
             }
         }
         const db = {
-            query: (query, args, callback) =>{
-                callback(null,[] )
-            }
+            query: (query, args) =>{ }
         }
         const mockQuery = jest.spyOn(db, 'query');
         const args = '-add -name hate -date 6/1/2021 19:00';
 
-        action.run('', args, bot, db)
+        await action.run(testmessage, args, bot, db)
 
-        expect(mockQuery).toHaveBeenCalledWith("INSERT INTO meanBot.events (name, date) VALUES (?, ?);", ["hate", new Date('6/1/2021 19:00')], expect.any(Function))
+        expect(mockQuery).toHaveBeenCalledWith("INSERT INTO meanBot.events (name, date, updatedBy) VALUES (?, ?, ?);", ["hate", new Date('6/1/2021 19:00'), 'test-user-id'])
         expect(mockSend).toHaveBeenCalledWith("Added hate to the schedule on June 1, 2021 7:00 PM")
     })
-    test('-remove should call db AND write return message', () => {
+    test('-remove should call db AND write return message', async () => {
+        const testmessage = {
+            author: {
+                id: 'test-user-id'
+            }
+        }
         const mockSend = jest.fn();
         const bot = {
             channels: {
@@ -113,16 +146,14 @@ describe(('run '), () => {
             }
         }
         const db = {
-            query: (query, args, callback) =>{
-                callback(null,[] )
-            }
+            query: (query, args) =>{  }
         }
         const mockQuery = jest.spyOn(db, 'query');
         const args = '-remove -name hate -date 6/1/2021 19:00';
 
-        action.run('', args, bot, db)
+        await action.run(testmessage, args, bot, db)
 
-        expect(mockQuery).toHaveBeenCalledWith("DELETE from meanBot.events where name = ? and date = ?;", ["hate", new Date('6/1/2021 19:00')], expect.any(Function))
+        expect(mockQuery).toHaveBeenCalledWith("UPDATE meanBot.events SET deletedBy = ? where name = ? and date = ?;", ["test-user-id", "hate", new Date('6/1/2021 19:00')])
         expect(mockSend).toHaveBeenCalledWith("Removed hate on June 1, 2021 7:00 PM from the schedule")
     })
 })

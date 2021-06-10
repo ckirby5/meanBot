@@ -3,12 +3,9 @@ const bot = new Discord.Client();
 const moment = require("moment");
 const config = require("../../config.json");
 
-exports.run = function(message, args, bot, db) {
-    db.query("SELECT t.name, a.name AS 'alias' FROM meanBot.aliases a JOIN meanBot.targets t ON t.targetId = a.targetId ORDER BY t.name",
-    function(err, rows) {
-        if (err) {
-            console.log("error: " +err)
-        }
+exports.run = async (message, args, bot, db) => {
+    try {
+        const rows = await db.query("SELECT t.name, a.name AS 'alias' FROM meanBot.aliases a JOIN meanBot.targets t ON t.targetId = a.targetId ORDER BY t.name");
         if (rows.length > 0){
             const map = new Map();
             for (const item of rows) {
@@ -56,6 +53,7 @@ exports.run = function(message, args, bot, db) {
             iteratedEmbed(fields)
 
         }
-    
-    })
+    } catch (error) {
+        console.log(error)
+    }
 }
