@@ -45,7 +45,7 @@
         "action": "tods/quake",
         "permissions": "all",
         "type": "both",
-        "role": "leader"
+        "role": "admin"
     },
     "schedule": {
         "action": "guildEvents/schedule",
