@@ -121,7 +121,7 @@ exports.run = function(message, args, bot, db) {
         });
     }
     const df = () => {
-        message.reply("",{
+        message.author.send("",{
             embed: {
                 color: "#0099ff",
                 title: "Please use !help (command) for more info\n",
