@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 const moment = require("moment");
+const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
 
 exports.run = async (message, args, bot, db) => {
     try {
@@ -54,7 +55,7 @@ exports.run = async (message, args, bot, db) => {
                     ],
                     timestamp: new Date()
                 }
-            });
+            }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         } else {
             message.reply("", {
                 embed: {
@@ -69,7 +70,7 @@ exports.run = async (message, args, bot, db) => {
                     },
                     timestamp: new Date()
                 }
-            });
+            }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         }
     } catch (error) {
         console.log(error)

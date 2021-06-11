@@ -3,7 +3,8 @@ const bot = new Discord.Client();
 const moment = require("moment");
 const scheduleUpdateAction = require('../../commands/guildEvents/schedule');
 const rteUpdateAction = require('../../commands/tods/rteStatus');
-
+const config = require('../../config.json');
+const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
 
 exports.run = async (message, args, bot, db) => {
     try {
@@ -30,7 +31,7 @@ exports.run = async (message, args, bot, db) => {
                     tod = null;
                 }
                 if (tod.isAfter()) {
-                    bot.channels.cache.get('833859329589379095').send("How do you know the future tod? Are you a GM? Fuck you!");
+                    message.reply("How do you know the future tod? Are you a GM? Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
                     return
                 }
             }
@@ -47,7 +48,7 @@ exports.run = async (message, args, bot, db) => {
 
                 const result = await db.query("UPDATE meanBot.targets SET todId = ?, windowStart = ?, windowEnd = ?, tracker = null WHERE targetId = ?;", [insertResult.insertId, windowStart.toDate(), windowEnd.toDate(), rows[0].targetId]);
                 if(result.affectedRows == 1) {
-                    bot.channels.cache.get('842187750068191243').send("", {
+                    bot.channels.cache.get(config.todChannel).send("", {
                         embed: {
                             color: "#0099ff",
                             title: "Mob Info Updated",
@@ -75,7 +76,7 @@ exports.run = async (message, args, bot, db) => {
                                 text: "Thank you for keeping Seal Team up to date!"
                             }
                         }
-                    });
+                    }).then(msg => {setTimeout(() => message.delete(), 60000)});;
                 }
                 await db.query("UPDATE meanBot.rte SET completed = ? WHERE targetId = ?;", [moment().toDate(), rows[0].targetId]);
                 const postActions = () => {
@@ -86,10 +87,10 @@ exports.run = async (message, args, bot, db) => {
                 }
                 setTimeout(postActions, 1000);
             } else {
-                bot.channels.cache.get('833859329589379095').send("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]");
+                message.reply("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});;
             }
         } else {
-            bot.channels.cache.get('833859329589379095').send("Invalid target specified! Fuck you!");
+            message.reply("Invalid target specified! Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});;
         }
     } catch(error){
         console.log(error)

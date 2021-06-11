@@ -2,37 +2,38 @@ const parse = require('../../helpers/argParser')
 const moment = require("moment");
 const config = require("../../config.json");
 const rteUpdateAction = require('../../commands/tods/rteStatus');
+const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
 
 exports.run = async (message, args, bot, db) => {
     const params = parse(args);
 
     if(params.hasOwnProperty('default')) {
-        message.reply( "No arguments specified");
+        message.reply( "No arguments specified").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         return;
     }
     
     if(params.hasOwnProperty('start') && params.hasOwnProperty('stop')) {
-        message.reply("Too many commands specified");
+        message.reply("Too many commands specified").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         return;
     }
 
     if(!params.hasOwnProperty('start') && !params.hasOwnProperty('stop')) {
-        message.reply("No start or stop specified");
+        message.reply("No start or stop specified").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         return;
     }
 
     if(!params.hasOwnProperty('char')) {
-        message.reply("No character name specified");
+        message.reply("No character name specified").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         return;
     }
 
     if(!params.hasOwnProperty('role')) {
-        message.reply("No role specified");
+        message.reply("No role specified").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         return;
     }
 
     if(!params.hasOwnProperty('mob')) {
-        message.reply("No mob specified")
+        message.reply("No mob specified").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
 
     try {
@@ -50,23 +51,23 @@ exports.run = async (message, args, bot, db) => {
                 if (roleInAllowedRoles) {
                     if(params.hasOwnProperty('start') && params.start){
                         await db.query("INSERT INTO meanBot.rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()])
-                        message.reply(`Added ${params.char} to RTE`);
+                        message.reply(`Added ${params.char} to RTE`).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
                     }
                     if(params.hasOwnProperty('stop') && params.stop){
                         await db.query("UPDATE meanBot.rte SET completed = ? WHERE who =? AND roleId = ? AND targetId = ?;", [moment().toDate(), params.char, role.id, target.targetId]);
-                        message.reply(`Removed ${params.char} from RTE`);
+                        message.reply(`Removed ${params.char} from RTE`).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
                     }
                     
-                    setTimeout(() => {rteUpdateAction.run(bot, db), 1000})
+                    setTimeout(() => {rteUpdateAction.run(bot, db), 30000})
                 } else {
-                    message.reply('This role is invalid for this RTE');
+                    message.reply('This role is invalid for this RTE').then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
                 }
             } else {
-                message.reply('This is not a valid RTE role');
+                message.reply('This is not a valid RTE role').then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
             }
         }
         else {
-            message.reply('This is not a valid target name');
+            message.reply('This is not a valid target name').then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         }
 
     } catch (error) {
