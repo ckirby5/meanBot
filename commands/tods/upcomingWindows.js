@@ -19,7 +19,7 @@ exports.run = async (bot, db, message) => {
                     fields: rows.map((row) => {
                         return { 
                             name: `${row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable ?  ':handbag:' : ':tractor:'} ${row.name}`, 
-                            value: `\nOpens in: ${moment.utc(moment(row.windowStart,"DD/MM/YYYY HH:mm:ss").diff(moment(new Date(),"DD/MM/YYYY HH:mm:ss"))).format("HH [hours] mm [minutes] ss [seconds]")}` 
+                            value: `\nOpens in: ${moment.utc(moment(row.windowStart,"DD/MM/YYYY HH:mm:ss").diff(moment(new Date(),"DD/MM/YYYY HH:mm:ss"))).utcOffset(+4).format("HH [hours] mm [minutes] ss [seconds]")}`
                         }
                     }),
                     timestamp: new Date(),
