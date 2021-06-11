@@ -31,27 +31,35 @@ exports.run = async (message, args, bot, db) => {
                         {
                             name: "Time of Death",
                             value: moment(rows[0].tod).format('LLL'),
-                            inline: false,
-                        },
-                        {
-                            name: "Enters Window",
-                            value: moment(rows[0].windowStart).format('LLL')
-                        },
-                        {
-                            name: "Window Ends",
-                            value: moment(rows[0].windowEnd).format('LLL')
+                            inline: true,
                         },
                         {
                             name: "Window Length",
-                            value: `${rows[0].variance > 60 ? (rows[0].variance * 2)/60 : rows[0].variance * 2} ${rows[0].variance < 60 ? ' minutes' : ' hours'}`
+                            value: `${rows[0].variance > 60 ? (rows[0].variance * 2)/60 : rows[0].variance * 2} ${rows[0].variance < 60 ? ' minutes' : ' hours'}`,
+                            inline: true,
+                        },
+                        { name: '\u200B', value: '\u200B', inline: true},
+                        {
+                            name: "Enters Window",
+                            value: moment(rows[0].windowStart).format('LLL'),
+                            inline: true,
                         },
                         {
+                            name: "Window Ends",
+                            value: moment(rows[0].windowEnd).format('LLL'),
+                            inline: true,
+                        },
+                        { name: '\u200B', value: '\u200B', inline: true },
+                        {
                             name: "Last Killed By",
-                            value: `${rows[0].killedBy ? rows[0].killedBy : 'Unknown'}`
+                            value: `${rows[0].killedBy ? rows[0].killedBy : 'Unknown'}`,
+                            inline: true,
                         },{
                             name: "Previously Killed By",
-                            value: `${rows[0].lastKilledBy ? rows[0].lastKilledBy : 'Unknown'}`
-                        }
+                            value: `${rows[0].lastKilledBy ? rows[0].lastKilledBy : 'Unknown'}`,
+                            inline: true,
+                        },
+                        { name: '\u200B', value: '\u200B', inline: true}
                     ],
                     timestamp: new Date()
                 }

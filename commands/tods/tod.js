@@ -1,13 +1,11 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-const moment = require("moment");
+const moment = require("moment-timezone");
+moment.tz.setDefault('America/New_York');
 const scheduleUpdateAction = require('../../commands/guildEvents/schedule');
 const rteUpdateAction = require('../../commands/tods/rteStatus');
 const config = require('../../config.json');
-<<<<<<< HEAD
-=======
 const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
->>>>>>> dev
 
 exports.run = async (message, args, bot, db) => {
     try {
@@ -34,11 +32,7 @@ exports.run = async (message, args, bot, db) => {
                     tod = null;
                 }
                 if (tod.isAfter()) {
-<<<<<<< HEAD
-                    message.reply("How do you know the future tod? Are you a GM? Fuck you!");
-=======
                     message.reply("How do you know the future tod? Are you a GM? Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
->>>>>>> dev
                     return
                 }
             }
@@ -94,17 +88,10 @@ exports.run = async (message, args, bot, db) => {
                 }
                 setTimeout(postActions, 1000);
             } else {
-<<<<<<< HEAD
-                message.reply("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]");
-            }
-        } else {
-            message.reply("Invalid target specified! Fuck you!");
-=======
                 message.reply("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});;
             }
         } else {
             message.reply("Invalid target specified! Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});;
->>>>>>> dev
         }
     } catch(error){
         console.log(error)

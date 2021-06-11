@@ -15,6 +15,7 @@ const db = new promiseDb({
   password: config.mysqlPass,
   database: config.mysqlDB,
   port: config.mysqlPort,
+  timezone: config.timeZone,
   charset: "utf8mb4"
 
 });
