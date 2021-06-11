@@ -6,9 +6,13 @@ const currentWindowDeleteMessagesAction = require('../../commands/chat/chatDelet
 
 exports.run = async (bot, db, message) => {
     try {
+<<<<<<< HEAD
         const results = await db.query("SELECT ro.name AS 'role', r.who, t.name AS 'name' FROM rte r LEFT JOIN targets t ON r.targetId = t.targetId LEFT JOIN role ro ON r.roleId = ro.id WHERE completed IS null;");    
+=======
+        console.log("$$$$$ HITTING HERE $$$$$$");
+        const results = await db.query("SELECT ro.name AS 'role', r.who, t.name AS 'name' FROM meanBot.rte r LEFT JOIN meanBot.targets t ON r.targetId = t.targetId LEFT JOIN meanBot.role ro ON r.roleId = ro.id WHERE completed IS null;");    
+>>>>>>> dev
         if (results.length > 0) {
-            currentWindowDeleteMessagesAction.run(bot, config.activeRteChannel, config.messagesToDelete);
             const rteMobs = [...new Set(results.map(rte => rte.name))];
                     const activeRte = rteMobs.map((mob) =>{
                         const rters = results.filter(rte => rte.name == mob);
@@ -31,6 +35,7 @@ exports.run = async (bot, db, message) => {
                     bot.channels.cache.get(config.activeRteChannel).send(embed);
 
         }
+        currentWindowDeleteMessagesAction.run(bot, config.activeRteChannel, config.messagesToDelete);
     } catch (error) {
         console.log(error)
     }

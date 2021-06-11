@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 const moment = require("moment");
+const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
 
 exports.run = function(message, args, bot, db) {
     const window = () => {
@@ -17,7 +18,7 @@ exports.run = function(message, args, bot, db) {
                     value: "!window {mobname}\nExample: !window naggy will return information on Lord Nagafen"
                 }
             }
-        });
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
     const tod = () => {
         message.reply("", {
@@ -47,7 +48,7 @@ exports.run = function(message, args, bot, db) {
                     }
                 ]
             }
-        });
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
     const bp = () => {
         message.reply("", {
@@ -63,7 +64,7 @@ exports.run = function(message, args, bot, db) {
                     value: "Use !bp targetname\nThis sends an actual Batphone using Batphone Bot."
                 }
             }
-        });
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
     const sp = () => {
         message.reply("", {
@@ -79,7 +80,7 @@ exports.run = function(message, args, bot, db) {
                     value: "Use !sp target/activity\nThis is for non major raid targets."
                 }
             }
-        });
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
     const camp = () => {
         message.reply("", {
@@ -101,7 +102,7 @@ exports.run = function(message, args, bot, db) {
                         }
                 ]
             }
-        });
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
     const event = () => {
         message.reply("", {
@@ -117,10 +118,10 @@ exports.run = function(message, args, bot, db) {
                     value: "Use !event -add -name Event Name -date Date\nExample: !event -add -name Hate Clear -date May 27 22:00:00 2021\nUse !event -remove -name Event Name -date Date\nExample: !event -remove -name Hate Clear -date May 27 22:00:00 2021"
                 }
             }
-        });
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
     const df = () => {
-        message.reply("",{
+        message.author.send("",{
             embed: {
                 color: "#0099ff",
                 title: "Please use !help (command) for more info\n",
@@ -133,7 +134,7 @@ exports.run = function(message, args, bot, db) {
                     value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent\nrte"
                 }
             }
-        });
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
 
     const rte = () => {
@@ -156,7 +157,7 @@ exports.run = function(message, args, bot, db) {
                     }
                 ]
             }
-        });
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
 
     
@@ -183,8 +184,10 @@ exports.run = function(message, args, bot, db) {
         case "rte":
             rte();
             break;
-        default:
+        case "commands":
             df();
+            break;
+        default:
             break;
     }
 }

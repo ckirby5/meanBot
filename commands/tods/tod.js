@@ -4,6 +4,10 @@ const moment = require("moment");
 const scheduleUpdateAction = require('../../commands/guildEvents/schedule');
 const rteUpdateAction = require('../../commands/tods/rteStatus');
 const config = require('../../config.json');
+<<<<<<< HEAD
+=======
+const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
+>>>>>>> dev
 
 exports.run = async (message, args, bot, db) => {
     try {
@@ -30,7 +34,11 @@ exports.run = async (message, args, bot, db) => {
                     tod = null;
                 }
                 if (tod.isAfter()) {
+<<<<<<< HEAD
                     message.reply("How do you know the future tod? Are you a GM? Fuck you!");
+=======
+                    message.reply("How do you know the future tod? Are you a GM? Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
+>>>>>>> dev
                     return
                 }
             }
@@ -75,7 +83,7 @@ exports.run = async (message, args, bot, db) => {
                                 text: "Thank you for keeping Seal Team up to date!"
                             }
                         }
-                    });
+                    }).then(msg => {setTimeout(() => message.delete(), 60000)});;
                 }
                 await db.query("UPDATE rte SET completed = ? WHERE targetId = ?;", [moment().toDate(), rows[0].targetId]);
                 const postActions = () => {
@@ -86,10 +94,17 @@ exports.run = async (message, args, bot, db) => {
                 }
                 setTimeout(postActions, 1000);
             } else {
+<<<<<<< HEAD
                 message.reply("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]");
             }
         } else {
             message.reply("Invalid target specified! Fuck you!");
+=======
+                message.reply("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});;
+            }
+        } else {
+            message.reply("Invalid target specified! Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});;
+>>>>>>> dev
         }
     } catch(error){
         console.log(error)
