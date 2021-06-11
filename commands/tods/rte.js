@@ -50,21 +50,12 @@ exports.run = async (message, args, bot, db) => {
                 console.log("$$$$$$$$ " + roleInAllowedRoles);
                 if (roleInAllowedRoles) {
                     if(params.hasOwnProperty('start') && params.start){
-<<<<<<< HEAD
-                        await db.query("INSERT INTO rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()])
-                        message.reply(`Added ${params.char} to RTE`);
-                    }
-                    if(params.hasOwnProperty('stop') && params.stop){
-                        await db.query("UPDATE rte SET completed = ? WHERE who =? AND roleId = ? AND targetId = ?;", [moment().toDate(), params.char, role.id, target.targetId]);
-                        message.reply(`Removed ${params.char} from RTE`);
-=======
                         await db.query("INSERT INTO meanBot.rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()])
                         message.reply(`Added ${params.char} to RTE`).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
                     }
                     if(params.hasOwnProperty('stop') && params.stop){
                         await db.query("UPDATE meanBot.rte SET completed = ? WHERE who =? AND roleId = ? AND targetId = ?;", [moment().toDate(), params.char, role.id, target.targetId]);
                         message.reply(`Removed ${params.char} from RTE`).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
->>>>>>> dev
                     }
                     
                     setTimeout(() => {rteUpdateAction.run(bot, db), 30000})
