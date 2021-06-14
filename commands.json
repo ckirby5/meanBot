@@ -3,25 +3,25 @@
         "action": "phones/batphone",
         "permissions": "all",
         "type": "both",
-        "role": "batphoners"
+        "role": "Leaders"
     },
     "sp": {
         "action": "phones/sockphone",
         "permissions": "all",
         "type": "both",
-        "role": "raider"
+        "role": "Raider"
     },
     "window": {
         "action": "tods/window",
         "permissions": "all",
         "type": "both",
-        "role": "member"
+        "role": "Member"
     },
     "tod": {
         "action": "tods/tod",
         "permissions": "all",
         "type": "both",
-        "role": "member"
+        "role": "Member"
     },
     "help": {
         "action": "utility/help",
@@ -33,30 +33,30 @@
         "action": "utility/camp",
         "permissions": "all",
         "type": "both",
-        "role": "member"
+        "role": "Member"
     },
     "event": {
         "action": "guildEvents/event",
         "permissions": "all",
         "type": "both",
-        "role": "scheduler"
+        "role": "Scheduler"
     },
     "schedule": {
         "action": "guildEvents/schedule",
         "permissions": "all",
         "type": "both",
-        "role": "scheduler"
+        "role": "Scheduler"
     },
     "rte": {
         "action": "tods/rte",
         "permissions": "all",
         "type": "both",
-        "role": "raider"
+        "role": "Raider"
     },
     "alias": {
         "action": "utility/alias",
         "permissions": "all",
         "type": "both",
-        "role": "leader"
+        "role": "Member"
     }
 }

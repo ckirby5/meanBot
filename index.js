@@ -40,13 +40,13 @@ function twentyFourHourRunner() {
   currentCampsBeingHeldAction.run(bot, db);
 }
 
-function oneMinuteRunner() {
+/*function oneMinuteRunner() {
   const oneMinuteWindowAction = require("./commands/tods/twentyMinuteWarning");
   oneMinuteWindowAction.run(bot, db);
-}
+}*/
 
 setInterval(twentyFourHourRunner, 300000);
-setInterval(oneMinuteRunner, 60000);
+//setInterval(oneMinuteRunner, 60000);
 
 bot.once("ready", () => {
     console.log("meanBot is ready!");
