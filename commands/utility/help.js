@@ -160,6 +160,25 @@ exports.run = function(message, args, bot, db) {
         }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
 
+    const bagged = () => {
+        message.reply("",{
+            embed: {
+                color: "#0099ff",
+                title: "Bagged Command (Member Role)",
+                author: {
+                    name: "MeanBot",
+                    icon_url: "https://i.imgur.com/tYfYIy3.png"
+                },
+                fields: [
+                    {
+                    name: "How to use the !bagged command",
+                    value: "Use !bagged"
+                    }
+                ]
+            }
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
+    }
+
     
     
     switch(args) {
@@ -187,7 +206,11 @@ exports.run = function(message, args, bot, db) {
         case "commands":
             df();
             break;
+        case "bagged":
+            bagged();
+            break;
         default:
+            df();
             break;
     }
 }

@@ -57,6 +57,12 @@
         "action": "utility/alias",
         "permissions": "all",
         "type": "both",
+        "role": "Leaders"
+    },    
+    "bagged": {
+        "action": "tods/bagged",
+        "permissions": "all",
+        "type": "both",
         "role": "Member"
     }
 }

@@ -21,10 +21,15 @@ exports.run = async (message, args, bot, db) => {
             else if(val.startsWith('[') && val.endsWith(']')){actualTod = val.replace('[', '').replace(']','')}
             else { mobName  = val }
         })
-        
+        const aliasResult = await db.query('SELECT g.guildName FROM meanBot.guildTable g LEFT JOIN meanBot.guildAliases ga ON ga.guildId = g.guildId WHERE ga.guildName = ?', killedByValue);
+        if (aliasResult[0] == null || aliasResult[0] == undefined){
+            message.reply("Please enter a valid guild.").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
+            return;
+        } else {
+            killedByValue = aliasResult[0].guildName;
+        }
         const rows = await db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime, d.tod FROM targets t JOIN aliases a ON a.targetId = t.targetId LEFT JOIN tod d ON t.todId = d.todId WHERE a.name = ?;", mobName.trim());
         if (rows[0] !== null && rows[0] !== undefined) {
-            const duration = moment.duration(moment().diff(moment(rows[0].tod)));
             let tod = moment().subtract(modValue, 'minutes');
             if (actualTod) {
                 tod = moment(actualTod);
@@ -35,6 +40,11 @@ exports.run = async (message, args, bot, db) => {
                     message.reply("How do you know the future tod? Are you a GM? Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
                     return
                 }
+            }
+            const longerThanFiveMinutes = moment(tod) > moment(rows[0].tod).add(5, 'minutes');
+            if (!longerThanFiveMinutes) {
+                message.reply(`A ToD has been entered for ${rows[0].name}: ${rows[0].tod}`).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
+                return;
             }
             if(tod){
                 const insertResult = await db.query("INSERT INTO tod (tod, targetId, killedBy, previousTodId, recordedBy) VALUES (?, ?, ?, ?, ?);", [tod.toDate(), rows[0].targetId, killedByValue, rows[0].todId, message.author.id]);
@@ -77,13 +87,13 @@ exports.run = async (message, args, bot, db) => {
                                 text: "Thank you for keeping Seal Team up to date!"
                             }
                         }
-                    }).then(msg => {setTimeout(() => message.delete(), 60000)});;
+                    }).then(msg => {setTimeout(() => message.delete(), 60000)});
                 }
                 await db.query("UPDATE rte SET completed = ? WHERE targetId = ?;", [moment().toDate(), rows[0].targetId]);
                 const postActions = () => {
                     const scheduleUpdateAction = require('../../commands/guildEvents/schedule');
                     const rteUpdateAction = require('../../commands/tods/rteStatus');
-                    scheduleUpdateAction.run('', '', bot, db);
+                    //scheduleUpdateAction.run('', '', bot, db);
                     rteUpdateAction.run(bot, db);
                 }
                 setTimeout(postActions, 1000);
