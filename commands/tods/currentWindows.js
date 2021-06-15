@@ -32,9 +32,16 @@ exports.run = async (bot, db, message) => {
                     const numberOfTicksToEnd = Math.ceil(toEnd/interval);
                     const positiveTime = Math.abs(toEnd);
                     const timeInWindow = `${Math.floor(positiveTime/60)} hours and ${Math.floor(positiveTime%60)} minutes`
-                    return { 
-                        name: `${row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable ?  ':handbag:' : ':tractor:'} ${row.name} (${window})`, 
-                        value: `\nRemaining Window: ${timeInWindow}\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}\n`
+
+                    let title = `:tractor: ${row.name} (${window})`;
+                        const areBagged =  row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable;
+                        const conceded = row.concedes > 0;
+                        if(areBagged || conceded){
+                          title = `${areBagged ? ':handbag:' : ''} ${conceded ? ':wheelchair:' : ''} ${row.name} (${window})`
+                        }
+                        return {
+                            name: title,
+                            value: `\nRemaining Window: ${timeInWindow}\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}\n`
                     }
                 }
             )).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");

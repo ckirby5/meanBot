@@ -28,7 +28,7 @@ exports.run = async (message, args, bot, db) => {
         } else {
             killedByValue = aliasResult[0].guildName;
         }
-        const rows = await db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime, d.tod FROM targets t JOIN aliases a ON a.targetId = t.targetId LEFT JOIN tod d ON t.todId = d.todId WHERE a.name = ?;", mobName.trim());
+        const rows = await db.query("SELECT t.todId, t.name, t.targetId, t.variance, t.respawnTime, t.concedes, d.tod FROM meanBot.targets t JOIN meanBot.aliases a ON a.targetId = t.targetId LEFT JOIN meanBot.tod d ON t.todId = d.todId WHERE a.name = ?;", mobName.trim());
         if (rows[0] !== null && rows[0] !== undefined) {
             let tod = moment().subtract(modValue, 'minutes');
             if (actualTod) {
@@ -42,7 +42,9 @@ exports.run = async (message, args, bot, db) => {
                 }
             }
             const longerThanFiveMinutes = moment(tod) > moment(rows[0].tod).add(5, 'minutes');
-            if (!longerThanFiveMinutes) {
+            if (!longerThanFiveMinutes && rows[0].tod !== null) {
+                console.log(longerThanFiveMinutes);
+                console.log(actualTod);
                 message.reply(`A ToD has been entered for ${rows[0].name}: ${rows[0].tod}`).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
                 return;
             }
@@ -56,8 +58,12 @@ exports.run = async (message, args, bot, db) => {
                 }
                 const windowStart = moment(killTimeStart.add(rows[0].respawnTime, 'hours').subtract(rows[0].variance, 'minutes')).subtract(modValue, 'minutes');
                 const windowEnd = moment(killTimeEnd.add(rows[0].respawnTime, 'hours').add(rows[0].variance, 'minutes')).subtract(modValue, 'minutes');
+                let concedes = rows[0].concedes;
+                if(concedes > 0){
+                  concedes -=1;
+                }
 
-                const result = await db.query("UPDATE targets SET todId = ?, windowStart = ?, windowEnd = ?, tracker = null WHERE targetId = ?;", [insertResult.insertId, windowStart.toDate(), windowEnd.toDate(), rows[0].targetId]);
+                const result = await db.query("UPDATE targets SET todId = ?, windowStart = ?, windowEnd = ?, tracker = null, concedes = ? WHERE targetId = ?;", [insertResult.insertId, windowStart.toDate(), windowEnd.toDate(), concedes, rows[0].targetId]);
                 if(result.affectedRows == 1) {
                     bot.channels.cache.get(config.todChannel).send("", {
                         embed: {

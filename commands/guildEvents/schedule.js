@@ -6,12 +6,12 @@ const config = require("../../config.json");
 exports.run = async (message, args, bot, db) => {
     try{
         const now = moment();
-        const targetResults = await db.query("SELECT t.name, t.windowStart as 'date', t.windowEnd as 'end', t.variance, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId where windowStart between ? and ?", [moment().startOf('day').toDate(),moment().endOf('day').add(7, 'days').toDate()]);
+        const targetResults = await db.query("SELECT t.name, t.windowStart as 'date', t.windowEnd as 'end', t.variance, t.isBaggable, t.conceded, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId where windowStart between ? and ?", [moment().startOf('day').toDate(),moment().endOf('day').add(7, 'days').toDate()]);
         const eventResults = await db.query("SELECT name, date FROM events where date between ? and ? AND deletedBy IS null", [moment().toDate(),moment().add(7, 'days').toDate()]);
     
         const combinedArray = [];
         targetResults.map((tr) => {
-            combinedArray.push({name: tr.name, date: tr.date, end: tr.end, variance: tr.variance, bagged: tr.killedBy == 'Seal Team' && tr.lastKilledBy == 'Seal Team' && tr.isBaggable})
+            combinedArray.push({name: tr.name, date: tr.date, end: tr.end, variance: tr.variance, bagged: tr.killedBy == 'Seal Team' && tr.lastKilledBy == 'Seal Team' && tr.isBaggable, conceded: tr.concedes > 0})
         })
         eventResults.map((er) => {
             combinedArray.push({name: er.name, date: er.date, bagged: false})
@@ -44,8 +44,12 @@ exports.run = async (message, args, bot, db) => {
                 let value = 'Nothing scheduled at this time'
                 if (ds.event.length > 0) { 
                     value = '';
-                ds.event.map((e) => { 
-                    value += `\n${e.bagged ? ':handbag: ' : ':tractor: '}**${e.name}**`;
+                ds.event.map((e) => {
+                    let name = `:tractor: ${e.name}`
+                    if (e.bagged || e.conceded) {
+                        name = `${e.bagged ? ':handbag:' : ''} ${e.conceded?':wheelchair:':''} **${e.name}**`
+                    } 
+                    value += `\n${name}`;
                     value += e.end ? ` ${moment(e.date).format('HH:mm')} ${e.variance == 0 ? '' : `(to ${moment(e.end).format('HH:mm')})`}` : ` at ${moment(e.date).format('HH:mm')}`
                 })
                 }

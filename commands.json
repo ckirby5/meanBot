@@ -64,5 +64,11 @@
         "permissions": "all",
         "type": "both",
         "role": "Member"
+    },
+    "concede": {
+        "action": "tods/concede",
+        "permissions": "all",
+        "type": "both",
+        "role": "Leaders"
     }
 }

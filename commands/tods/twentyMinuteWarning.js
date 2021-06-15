@@ -7,29 +7,27 @@ exports.run = async(bot, db, message) => {
     try {
         const timeStamp = moment().add(20, 'minutes');
         const betweenTimestamp = moment().add(21, 'minutes');
-        const rows = await db.query("SELECT t.name, t.windowStart, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId WHERE t.windowStart <= ? AND t.windowStart > ? ORDER BY t.windowStart ASC;", [betweenTimestamp.toDate(), timeStamp.toDate()]);
+        console.log('ToDateTimeStamp: ' + timeStamp.toDate());
+        console.log('BetweenTimeStamp: '+ betweenTimestamp.toDate());
+        const rows = await db.query("SELECT t.name, t.windowStart, t.isBaggable, t.concedes, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM meanBot.targets t LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE t.windowStart <= ? AND t.windowStart > ? AND isSubscribable = 0 ORDER BY t.windowStart ASC;", [betweenTimestamp.toDate(), timeStamp.toDate()]);
+        console.log("Twenty Minute Runner Rows: " + rows);
         if(rows.length > 0) {
-            console.log("Rows length: " + rows.length);
-            bot.channels.cache.get(config.sockphoneChannel).send("<@&842186819386605568> <@&842322700650676224>", {
+            bot.channels.cache.get(config.generalTestChannel).send(`<@&${config.raiderRole}> <@&${config.memberRole}> <@&${config.trialRaiderRole}> <@&${config.trialMemberRole}>`, {
                 embed: {
                     color: "#0099ff",
-                    title: "Mobs Entering Window:\n",
-                    author: {
-                        name: 'MeanBot',
-                        icon_url: 'https://i.imgur.com/tYfYIy3.png'
-                    },
-                    description: "In 20 minutes:",
+                    title: "Mobs Entering Window in 20 minutes:\n",
                     fields: rows.map((row) => {
-                        return { 
-                            name: `${row.name}`, 
-                            value: `Window Opens at: ${moment(row.windowStart).format('LLL')}\nWindow Opens in: ${moment.utc(moment(row.windowStart,"DD/MM/YYYY HH:mm:ss").diff(moment(new Date(),"DD/MM/YYYY HH:mm:ss"))).format("HH [hours] mm [minutes] ss [seconds]")}\nPreviously Killed By: ${row.killedBy ? row.killedBy : 'Unknown'}, ${row.lastKilledBy ? row.lastKilledBy : 'Unknown'}\n${row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable ?  '(:handbag: monitor for ToD)' : ''}`  
+                        let title = row.name;
+                        const areBagged =  row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable;
+                        const conceded = row.concedes > 0;
+                        if(areBagged || conceded){
+                          title = `${areBagged ? ':handbag:' : ''} ${conceded ? ':wheelchair:' : ''} ${row.name} (Monitor for ToD)`
                         }
-                    }),
-                    timestamp: new Date(),
-                    footer: {
-                        text: "\nThese are entering window soon! Be prepared!"
-                    }
-
+                        return {
+                            name: title, 
+                            value: `Window Opens: ${moment(row.windowStart).format('LLL')}`  
+                        }
+                    })
                 }
             }).then(function(message){
                 message.react("💩");

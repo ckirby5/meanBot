@@ -131,7 +131,7 @@ exports.run = function(message, args, bot, db) {
                 },
                 fields: {
                     name: "Available Commands",
-                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent\nrte"
+                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent\nrte\nbagged"
                 }
             }
         }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});

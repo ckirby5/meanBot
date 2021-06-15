@@ -6,7 +6,7 @@ const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
 
 exports.run = async (message, args, bot, db) => {
     try {
-        const rows = await db.query("SELECT t.name, t.emoji FROM meanBot.targets t LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE d1.killedBy = 'Seal Team' AND d2.killedBy = 'Seal Team' AND t.isBaggable = 1 AND t.respawnTime >= 72;");
+        const rows = await db.query("SELECT t.name FROM meanBot.targets t LEFT JOIN meanBot.tod d1 ON t.todId = d1.todId LEFT JOIN meanBot.tod d2 ON d1.previousTodId = d2.todId WHERE d1.killedBy = 'Seal Team' AND d2.killedBy = 'Seal Team' AND t.isBaggable = 1 AND t.respawnTime >= 72;");
         console.log(rows);
         if(rows.length > 0) {
             const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Current Bagged Mobs\n")
