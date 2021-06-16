@@ -86,6 +86,10 @@ exports.run = async (message, args, bot, db) => {
                                 {
                                     name: "Updated By",
                                     value: "<@" + message.author.id + ">"
+                                },
+                                {
+                                    name: "Remaining Concessions",
+                                    value: rows[0].concedes
                                 }
                             ],
                             timestamp: new Date(),
