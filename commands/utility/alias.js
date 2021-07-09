@@ -29,14 +29,10 @@ exports.run = async (message, args, bot, db) => {
                 }
             
                 
-                bot.channels.cache.get(config.aliasesChannel).send("", {
+                message.author.send("", {
                     embed: {
                         color: "#0099ff",
                         title: "Aliases for targets\n",
-                        author: {
-                            name: "MeanBot",
-                            icon_url: "https://i.imgur.com/tYfYIy3.png"
-                        },
                         fields: fields.map((f) => {
                             return {
                                 name: `${f.name}`,

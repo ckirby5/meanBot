@@ -69,10 +69,6 @@ exports.run = async (message, args, bot, db) => {
                         embed: {
                             color: "#0099ff",
                             title: "Mob Info Updated",
-                            author: {
-                                name: 'MeanBot',
-                                icon_url: 'https://i.imgur.com/tYfYIy3.png'
-                            },
                             description: rows[0].name,
                             fields: [
                                 {

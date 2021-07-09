@@ -6,11 +6,10 @@ const config = require("../../config.json");
 exports.run = async (bot, db, message) => {
     try {
         const timeStamp = moment();
-        const rows = await db.query("SELECT t.name, t.windowStart, t.windowEnd, t.variance, t.tracker, t.isBaggable, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId WHERE  (?  BETWEEN t.windowStart AND t.windowEnd) AND t.isCamp = 0 ORDER BY t.windowStart ASC;", timeStamp.toDate())
+        const rows = await db.query("SELECT t.name, t.windowStart, t.windowEnd, t.variance, t.tracker, t.isBaggable, t.concedes, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId WHERE  (?  BETWEEN t.windowStart AND t.windowEnd) AND t.isCamp = 0 ORDER BY t.windowStart ASC;", timeStamp.toDate())
 
         if(rows.length > 0) {
             const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Mobs In Window\n")
-            .setAuthor("MeanBot", "https://i.imgur.com/tYfYIy3.png")
             .addFields(
                 rows.map((row) => {
                     const windowLengthInMinutes = row.variance * 2;
@@ -37,7 +36,7 @@ exports.run = async (bot, db, message) => {
                         const areBagged =  row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable;
                         const conceded = row.concedes > 0;
                         if(areBagged || conceded){
-                          title = `${areBagged ? ':handbag:' : ''} ${conceded ? ':wheelchair:' : ''} ${row.name} (${window})`
+                          title = `${areBagged ? ':handbag:' : ''} ${conceded ? ':do_not_litter:' : ''} ${row.name} (${window})`
                         }
                         return {
                             name: title,
@@ -51,10 +50,6 @@ exports.run = async (bot, db, message) => {
                 embed: {
                     color: "#0099ff",
                     title: "Nothing Currently in Window\n",
-                    author: {
-                        name: 'MeanBot',
-                        icon_url: 'https://i.imgur.com/tYfYIy3.png'
-                    },
                     image: {
                         url: 'https://i.imgur.com/Zgppa6s.jpg'
                     },

@@ -32,22 +32,21 @@ function twentyFourHourRunner() {
   const currentWindowDeleteMessagesAction = require('./commands/chat/chatDelete');
   currentWindowDeleteMessagesAction.run(bot, config.windowsChannel, config.messagesToDelete);
   currentWindowDeleteMessagesAction.run(bot, config.campCheckChannel, config.messagesToDelete);
-  const twentyFourHourWindowAction = require("./commands/tods/upcomingWindows");
-  twentyFourHourWindowAction.run(bot, db);
   const currentWindowRunnerAction = require("./commands/tods/currentWindows");
   currentWindowRunnerAction.run(bot, db);
+  const twentyFourHourWindowAction = require("./commands/tods/upcomingWindows");
+  twentyFourHourWindowAction.run(bot, db);
   const currentCampsBeingHeldAction = require('./commands/utility/currentCamps');
   currentCampsBeingHeldAction.run(bot, db);
 }
 
-function oneMinuteRunner() {
+/*function oneMinuteRunner() {
   const oneMinuteWindowAction = require("./commands/tods/twentyMinuteWarning");
   oneMinuteWindowAction.run(bot, db);
-  console.log("Hitting my runner");
-}
+}*/
 
 setInterval(twentyFourHourRunner, 300000);
-setInterval(oneMinuteRunner, 60000);
+//setInterval(oneMinuteRunner, 60000);
 
 bot.once("ready", () => {
     console.log("meanBot is ready!");

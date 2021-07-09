@@ -16,10 +16,6 @@ exports.run = async (message, args, bot, db) => {
                     color: "#0099ff",
                     title: rows[0].name,
                     url: rows[0].targetURL,
-                    author: {
-                        name: 'MeanBot',
-                        icon_url: 'https://i.imgur.com/tYfYIy3.png'
-                    },
                     description: "Window Info",
                     fields: [
                         {
@@ -69,10 +65,6 @@ exports.run = async (message, args, bot, db) => {
                 embed: {
                     color: "#0099ff",
                     title: "You specified an invalid target! Fuck you!",
-                    author: {
-                        name: "MeanBot",
-                        icon_url: "https://i.imgur.com/tYfYIy3.png"
-                    },
                     image: {
                         url: "https://i.imgur.com/HcURdiB.jpg"
                     },

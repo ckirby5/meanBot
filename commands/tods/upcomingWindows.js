@@ -12,16 +12,12 @@ exports.run = async (bot, db, message) => {
                 embed: {
                     color: "#0099ff",
                     title: "Mobs Entering Window In The Next 24 Hours\n",
-                    author: {
-                        name: 'MeanBot',
-                        icon_url: 'https://i.imgur.com/tYfYIy3.png'
-                    },
                     fields: rows.map((row) => {
                         let title = `:tractor: ${row.name}`;
                         const areBagged =  row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable;
                         const conceded = row.concedes > 0;
                         if(areBagged || conceded){
-                          title = `${areBagged ? ':handbag:' : ''} ${conceded ? ':wheelchair:' : ''} ${row.name} (Monitor for ToD)`
+                          title = `${areBagged ? ':handbag:' : ''} ${conceded ? ':do_not_litter:' : ''} ${row.name} (Monitor for ToD)`
                         }
                         return {
                             name: title, 

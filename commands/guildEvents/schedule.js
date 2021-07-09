@@ -1,12 +1,13 @@
 const moment = require("moment");
 const Discord = require("discord.js");
 const config = require("../../config.json");
+const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
 
 
 exports.run = async (message, args, bot, db) => {
     try{
         const now = moment();
-        const targetResults = await db.query("SELECT t.name, t.windowStart as 'date', t.windowEnd as 'end', t.variance, t.isBaggable, t.conceded, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId where windowStart between ? and ?", [moment().startOf('day').toDate(),moment().endOf('day').add(7, 'days').toDate()]);
+        const targetResults = await db.query("SELECT t.name, t.windowStart as 'date', t.windowEnd as 'end', t.variance, t.isBaggable, t.concedes, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId where windowStart between ? and ?", [moment().startOf('day').toDate(),moment().endOf('day').add(7, 'days').toDate()]);
         const eventResults = await db.query("SELECT name, date FROM events where date between ? and ? AND deletedBy IS null", [moment().toDate(),moment().add(7, 'days').toDate()]);
     
         const combinedArray = [];
@@ -38,7 +39,6 @@ exports.run = async (message, args, bot, db) => {
         }
         const finalSchedule = daySchedule.filter((day) => day.event != undefined);
         const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Event Schedule\n")
-        .setAuthor("MeanBot", "https://i.imgur.com/tYfYIy3.png")
         .addFields(
             finalSchedule.map((ds)=>{
                 let value = 'Nothing scheduled at this time'
@@ -60,7 +60,7 @@ exports.run = async (message, args, bot, db) => {
             })
             
         ).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
-        bot.channels.cache.get(config.eventSchedulesChannel).send(embed);
+        message.author.send(embed).then(msg => {setTimeout(() => deleteFunc(message,msg), 180000)});
     }
     catch(ex){
         console.log(ex);

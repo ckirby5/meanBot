@@ -45,7 +45,7 @@
         "action": "guildEvents/schedule",
         "permissions": "all",
         "type": "both",
-        "role": "Scheduler"
+        "role": "Member"
     },
     "rte": {
         "action": "tods/rte",
@@ -57,7 +57,7 @@
         "action": "utility/alias",
         "permissions": "all",
         "type": "both",
-        "role": "Leaders"
+        "role": "Member"
     },    
     "bagged": {
         "action": "tods/bagged",
