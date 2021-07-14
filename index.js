@@ -75,6 +75,7 @@ bot.on("message", async (message) => {
       else {
         message.channel.send("You do not have the proper role to use this command!");
       }
+      
     }
 });
 

@@ -38,29 +38,28 @@ exports.run = async (message, args, bot, db) => {
             }
         }
         const finalSchedule = daySchedule.filter((day) => day.event != undefined);
-        const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Event Schedule\n")
-        .addFields(
-            finalSchedule.map((ds)=>{
+
+        finalSchedule.map((ds)=>{
+            const dailySchedule = () => {
                 let value = 'Nothing scheduled at this time'
                 if (ds.event.length > 0) { 
                     value = '';
                 ds.event.map((e) => {
-                    let name = `:tractor: ${e.name}`
-                    if (e.bagged || e.conceded) {
-                        name = `${e.bagged ? ':handbag:' : ''} ${e.conceded?':wheelchair:':''} **${e.name}**`
-                    } 
-                    value += `\n${name}`;
+                    value += `\n${e.name}`;
                     value += e.end ? ` ${moment(e.date).format('HH:mm')} ${e.variance == 0 ? '' : `(to ${moment(e.end).format('HH:mm')})`}` : ` at ${moment(e.date).format('HH:mm')}`
                 })
                 }
                 return {
-                    name: ds.date.format('dddd MMM Do YYYY'),
+                    name: "Daily Targets",
                     value 
                 }
-            })
+            }
+            const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle(`Event Schedule for ${ds.date.format('dddd MMM Do YYYY')}\n`)
+            .addFields(dailySchedule()).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
+            message.author.send(embed).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
             
-        ).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
-        message.author.send(embed).then(msg => {setTimeout(() => deleteFunc(message,msg), 180000)});
+            
+        })
     }
     catch(ex){
         console.log(ex);
