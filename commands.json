@@ -70,5 +70,11 @@
         "permissions": "all",
         "type": "both",
         "role": "Leaders"
+    },
+    "toon": {
+        "action": "utility/guildBots",
+        "permissions": "all",
+        "type": "both",
+        "role": "Leaders"
     }
 }

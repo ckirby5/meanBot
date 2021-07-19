@@ -131,7 +131,7 @@ exports.run = function(message, args, bot, db) {
                 },
                 fields: {
                     name: "Available Commands",
-                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent\nrte\nbagged"
+                    value: "aliases\nwindow\ntod\nbp\nsp\ncamp\nevent\nrte\nbagged\ntoon"
                 }
             }
         }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
@@ -179,7 +179,40 @@ exports.run = function(message, args, bot, db) {
         }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
 
-    
+    const toon = () => {
+        message.reply("", {
+            embed: {
+                color: "0099ff",
+                title: "Toon Command (Raider Role)",
+                fields: [
+                    {
+                        name: "To get locations of all bots",
+                        value: "!toon -locations"
+                    },
+                    {
+                        name: "Get the credentials for a bot",
+                        value: "!toon -name {toon name} -showpassword"
+                    },
+                    {
+                        name: "Get all information for a specific bot",
+                        value: "!toon -name {toon name} -showinfo"
+                    },
+                    {
+                        name: "Update the parked location or buffs for a bot",
+                        value: "!toon -name {toon name} -park {location} -buff {buff list}"
+                    },
+                    {
+                        name: "Edit the credentials or notes of a bot (Officer Only)",
+                        value: "!toon -name {toon name} -setinfo {information}"
+                    },
+                    {
+                        name: "Show all passwords for bots (Officer Only)",
+                        value: "!toon -showpasswords"
+                    }
+                ]
+            }
+        }).then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
+    }    
     
     switch(args) {
         case "window":
@@ -208,6 +241,9 @@ exports.run = function(message, args, bot, db) {
             break;
         case "bagged":
             bagged();
+            break;
+        case "toon":
+            toon();
             break;
         default:
             df();
