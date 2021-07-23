@@ -9,42 +9,59 @@ exports.run = async (bot, db, message) => {
         const rows = await db.query("SELECT t.name, t.windowStart, t.windowEnd, t.variance, t.tracker, t.isBaggable, t.concedes, d1.killedBy, d2.killedBy AS 'lastKilledBy' FROM targets t LEFT JOIN tod d1 ON t.todId = d1.todId LEFT JOIN tod d2 ON d1.previousTodId = d2.todId WHERE  (?  BETWEEN t.windowStart AND t.windowEnd) AND t.isCamp = 0 ORDER BY t.windowStart ASC;", timeStamp.toDate())
 
         if(rows.length > 0) {
-            const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Mobs In Window\n")
-            .addFields(
-                rows.map((row) => {
-                    const windowLengthInMinutes = row.variance * 2;
-                    let window = '';
-                    const windowStart = moment(row.windowStart);
-                    const windowEnd = moment(row.windowEnd);
-                    const interval = windowLengthInMinutes/16;
+            const fields = rows.map((row) => {
+                const windowLengthInMinutes = row.variance * 2;
+                let window = '';
+                const windowStart = moment(row.windowStart);
+                const windowEnd = moment(row.windowEnd);
+                const interval = windowLengthInMinutes/16;
 
-                    if (windowLengthInMinutes < 60) {
-                        window = `${windowLengthInMinutes} minutes`
-                    } else {
-                        window = `${windowLengthInMinutes/60} hours`
-                    }
-
-                    const fromStart = moment.duration(windowStart.diff(moment())).as('minutes');
-                    const toEnd = moment.duration(windowEnd.diff(moment())).as('minutes');
-
-                    const numberOfTicksFromStart = Math.abs(Math.ceil(fromStart/interval));
-                    const numberOfTicksToEnd = Math.ceil(toEnd/interval);
-                    const positiveTime = Math.abs(toEnd);
-                    const timeInWindow = `${Math.floor(positiveTime/60)} hours and ${Math.floor(positiveTime%60)} minutes`
-
-                    let title = `:tractor: ${row.name} (${window})`;
-                        const areBagged =  row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable;
-                        const conceded = row.concedes > 0;
-                        if(areBagged || conceded){
-                          title = `${areBagged ? ':handbag:' : ''} ${conceded ? ':do_not_litter:' : ''} ${row.name} (${window})`
-                        }
-                        return {
-                            name: title,
-                            value: `\nRemaining Window: ${timeInWindow}\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}\n`
-                    }
+                if (windowLengthInMinutes < 60) {
+                    window = `${windowLengthInMinutes} minutes`
+                } else {
+                    window = `${windowLengthInMinutes/60} hours`
                 }
-            )).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
-            bot.channels.cache.get(config.windowsChannel).send(embed);
+
+                const fromStart = moment.duration(windowStart.diff(moment())).as('minutes');
+                const toEnd = moment.duration(windowEnd.diff(moment())).as('minutes');
+
+                const numberOfTicksFromStart = Math.abs(Math.ceil(fromStart/interval));
+                const numberOfTicksToEnd = Math.ceil(toEnd/interval);
+                const positiveTime = Math.abs(toEnd);
+                const timeInWindow = `${Math.floor(positiveTime/60)} hours and ${Math.floor(positiveTime%60)} minutes`
+
+                let title = `:tractor: ${row.name} (${window})`;
+                const areBagged =  row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable;
+                const conceded = row.concedes > 0;
+                if(areBagged || conceded){
+                    title = `${areBagged ? ':handbag:' : ''} ${conceded ? ':do_not_litter:' : ''} ${row.name} (${window})`
+                }
+                return {
+                    name: title,
+                    value: `\nRemaining Window: ${timeInWindow}\n${":green_square:".repeat(numberOfTicksFromStart)}${":white_large_square:".repeat(numberOfTicksToEnd)}\n`
+                }
+            });
+
+            let fieldsLength = 0;
+            let embedCounter = 0;
+            let embedsToSend = [[]];
+            for(let i = 0; i < fields.lastKilledBy; i++){
+                const fieldLength = JSON.stringify(fields[i]).length;
+                if(fieldsLength + fieldLength > 1000){
+                    embedsToSend.push([]);
+                    fieldsLength = 0;
+                    embedCounter += 1;
+                }
+                embedsToSend[embedCounter].push(fields[i]);
+                fieldsLength += fieldsLength;
+            }
+
+            for(let i = 0; i < embedsToSend.length; i ++){
+                const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Mobs In Window\n")
+                .addFields(embedsToSend[i]).setTimestamp().setFooter("\nThese are currently in window! Be prepared!");
+                bot.channels.cache.get(config.windowsChannel).send(embed);
+            }
+            
         } else {
             bot.channels.cache.get(config.windowsChannel).send("", {
                 embed: {
