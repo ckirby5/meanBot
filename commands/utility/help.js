@@ -187,7 +187,11 @@ exports.run = function(message, args, bot, db) {
                 fields: [
                     {
                         name: "To get locations of all bots",
-                        value: "!toon -locations"
+                        value: "!toon -location"
+                    },
+                    {
+                        name: "To get location based on class\nOptions are mage, wizard, cleric, bard, necro, rogue, druid",
+                        value: "!toon -class {class name}"
                     },
                     {
                         name: "Get the credentials for a bot",
@@ -199,15 +203,19 @@ exports.run = function(message, args, bot, db) {
                     },
                     {
                         name: "Update the parked location or buffs for a bot",
-                        value: "!toon -name {toon name} -park {location} -buff {buff list}"
+                        value: "!toon -park -name {toon name} -location {location} -buffs {buffs}"
                     },
                     {
-                        name: "Edit the credentials or notes of a bot (Officer Only)",
-                        value: "!toon -name {toon name} -setinfo {information}"
+                        name: "Edit the password of a bot (Officer Only)",
+                        value: "!toon -name {toon name} -setpassword {password}"
+                    },
+                    {
+                        name: "Edit the notes of a bot (Officer Only)",
+                        value: "!toon -name {toon name} -setnotes {notes}"
                     },
                     {
                         name: "Show all passwords for bots (Officer Only)",
-                        value: "!toon -showpasswords"
+                        value: "!toon -viewpasswords"
                     }
                 ]
             }

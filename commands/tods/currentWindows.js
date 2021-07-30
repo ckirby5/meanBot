@@ -30,7 +30,7 @@ exports.run = async (bot, db, message) => {
                 const positiveTime = Math.abs(toEnd);
                 const timeInWindow = `${Math.floor(positiveTime/60)} hours and ${Math.floor(positiveTime%60)} minutes`
 
-                let title = `:tractor: ${row.name} (${window})`;
+                let title = `${row.name} (${window})`;
                 const areBagged =  row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable;
                 const conceded = row.concedes > 0;
                 if(areBagged || conceded){
@@ -45,15 +45,17 @@ exports.run = async (bot, db, message) => {
             let fieldsLength = 0;
             let embedCounter = 0;
             let embedsToSend = [[]];
-            for(let i = 0; i < fields.lastKilledBy; i++){
+            for(let i = 0; i < fields.length; i++){
                 const fieldLength = JSON.stringify(fields[i]).length;
-                if(fieldsLength + fieldLength > 1000){
+                const nextFieldLength = fieldsLength + fieldLength;
+                console.log(nextFieldLength);
+                if(nextFieldLength > 5000){
                     embedsToSend.push([]);
                     fieldsLength = 0;
                     embedCounter += 1;
                 }
                 embedsToSend[embedCounter].push(fields[i]);
-                fieldsLength += fieldsLength;
+                fieldsLength += fieldLength;
             }
 
             for(let i = 0; i < embedsToSend.length; i ++){

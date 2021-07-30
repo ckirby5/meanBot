@@ -75,6 +75,6 @@
         "action": "utility/guildBots",
         "permissions": "all",
         "type": "both",
-        "role": "Leaders"
+        "role": "Raider"
     }
 }

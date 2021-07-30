@@ -37,7 +37,12 @@ exports.run = async (message, args, bot, db) => {
             message.author.send(`Updated password for ${params.name} with ${params.setpassword}`);
         }
         else if (message.member.roles.cache.has(config.raiderRole) && !isLeadershipViewPasswords && !isLeadershipUpdateNotes && !isLeadershipUpdatePassword) {
-            const exists = await db.query("SELECT name FROM meanBot.guildBots WHERE name = ?", params.name);
+            console.log("Am I hitting here?");
+            console.log(JSON.stringify(params));
+            let exists = true;
+            if (!(params.hasOwnProperty('location') && params.location) && !(params.hasOwnProperty('class') && params.class) && !(params.hasOwnProperty('park') && params.park)) {
+                exists = await db.query("SELECT name FROM meanBot.guildBots WHERE name = ?", params.name);
+            }
             if (exists == undefined || exists.length == 0) {
                 message.reply("This character does not exist");
             } else {
@@ -48,8 +53,9 @@ exports.run = async (message, args, bot, db) => {
                         return;
                     }
                     await db.query("UPDATE meanBot.guildBots SET location = ?, buffs = ?, updatedBy = ? WHERE name = ?;", [zones[0].zoneId, params.buffs, message.author.id, params.name]);
-                    message.reply(`Parked ${params.name} at ${params.location} with ${params.notes}`);
+                    message.reply(`Parked ${params.name} at ${params.location} with ${params.buffs}`);
                 } else if (params.hasOwnProperty('location') && params.location) {
+                    console.log("Am I hitting location?");
                     const rows = await db.query("SELECT gb.name, z.zoneName FROM meanBot.guildBots gb JOIN meanBot.zones z ON gb.location = z.zoneId;");
                     if (rows.length > 0) {
                         const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle("Current Bot Locations\n")
@@ -78,6 +84,20 @@ exports.run = async (message, args, bot, db) => {
                             {name: `Location`, value: `${rows[0].zoneName}`},
                             {name: `Buffs`, value: `${rows[0].buffs}`},
                             {name: `Notes`, value: `${rows[0].notes}`}).setTimestamp();
+                        message.author.send(embed);
+                    }
+                } else if (params.hasOwnProperty('class') && params.class) {
+                    const rows = await db.query("SELECT gb.name, gb.notes, z.zoneName FROM meanBot.guildBots gb JOIN meanBot.zones z ON gb.location = z.zoneId WHERE class = ?;", params.class);
+                    if (rows.length > 0) {
+                        const embed = new Discord.MessageEmbed().setColor("#0099ff").setTitle(`Bot Information for ${params.class}`)
+                        .addFields(
+                            rows.map((row) => {
+                                return {
+                                    name: `${row.name}`,
+                                    value: `Zone: ${row.zoneName}\nNotes: ${row.notes}`
+                                }
+                            })
+                        ).setTimestamp();
                         message.author.send(embed);
                     }
                 }

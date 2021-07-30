@@ -13,7 +13,7 @@ exports.run = async (bot, db, message) => {
                     color: "#0099ff",
                     title: "Mobs Entering Window In The Next 24 Hours\n",
                     fields: rows.map((row) => {
-                        let title = `:tractor: ${row.name}`;
+                        let title = `${row.name}`;
                         const areBagged =  row.killedBy == 'Seal Team' && row.lastKilledBy == 'Seal Team' && row.isBaggable;
                         const conceded = row.concedes > 0;
                         if(areBagged || conceded){
