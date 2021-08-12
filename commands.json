@@ -77,18 +77,16 @@
         "type": "both",
         "role": "Raider"
     },
-<<<<<<< HEAD
     "meanbot": {
         "action": "utility/meanBot",
         "permissions": "all",
         "type": "both",
         "role": "Member"
-=======
+    },
     "butthole": {
         "action": "utility/butthole",
         "permissions": "all",
         "type": "both",
         "role": "Raider"
->>>>>>> butthole-command
     }
 }
