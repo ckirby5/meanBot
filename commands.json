@@ -76,5 +76,11 @@
         "permissions": "all",
         "type": "both",
         "role": "Raider"
+    },
+    "butthole": {
+        "action": "utility/butthole",
+        "permissions": "all",
+        "type": "both",
+        "role": "Raider"
     }
 }
