@@ -6,7 +6,6 @@ const currentWindowDeleteMessagesAction = require('../../commands/chat/chatDelet
 
 exports.run = async (bot, db, message) => {
     try {
-        console.log("$$$$$ HITTING HERE $$$$$$");
         const results = await db.query("SELECT ro.name AS 'role', r.who, t.name AS 'name' FROM meanBot.rte r LEFT JOIN meanBot.targets t ON r.targetId = t.targetId LEFT JOIN meanBot.role ro ON r.roleId = ro.id WHERE completed IS null;");    
         if (results.length > 0) {
             const rteMobs = [...new Set(results.map(rte => rte.name))];

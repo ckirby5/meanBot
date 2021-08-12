@@ -1,7 +1,9 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const mysql = require("mysql");
-const promiseDb = require('./helpers/promise-db')
+const promiseDb = require('./helpers/promise-db');
+const deleteFunc = (oldmsg, msg) => {msg.delete(); oldmsg.delete();};
+
 
 const commands = require("./commands.json");
 
@@ -40,13 +42,13 @@ function twentyFourHourRunner() {
   currentCampsBeingHeldAction.run(bot, db);
 }
 
-/*function oneMinuteRunner() {
-  const oneMinuteWindowAction = require("./commands/tods/twentyMinuteWarning");
+function fiveMinuteRunner() {
+  const oneMinuteWindowAction = require("./commands/tods/scoutRollOverTod");
   oneMinuteWindowAction.run(bot, db);
-}*/
+}
 
 setInterval(twentyFourHourRunner, 300000);
-//setInterval(oneMinuteRunner, 60000);
+setInterval(fiveMinuteRunner, 300000);
 
 bot.once("ready", () => {
     console.log("meanBot is ready!");
@@ -63,20 +65,24 @@ bot.on("message", async (message) => {
     const command = message.content.split(" ");
     const args = command.slice(1, command.length).join(" ");
     const commandName = command[0].toLowerCase().slice(config.prefix.length);
-  
-    if (commandName in commands) {
-      if (commands[commandName].type === "dm") {
-        return;
+    if (message.channel.id == config.meanBotChannel || (message.channel.id == config.todChannel && commandName == 'tod')) {
+      if (commandName in commands) {
+        if (commands[commandName].type === "dm") {
+          return;
+        }
+        if(await checkIfAuthorInRole(commands[commandName].role, message)){
+          let action = require("./commands/" + commands[commandName].action);
+          await action.run(message, args, bot, db, commands[commandName].extra);
+        }
+        else {
+          message.channel.send("You do not have the proper role to use this command!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
+        }
+        
       }
-      if(await checkIfAuthorInRole(commands[commandName].role, message)){
-        let action = require("./commands/" + commands[commandName].action);
-        await action.run(message, args, bot, db, commands[commandName].extra);
-      }
-      else {
-        message.channel.send("You do not have the proper role to use this command!");
-      }
-      
+    } else {
+      message.channel.send("Please use the meanbot channel.").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
     }
+    
 });
 
 bot.ws.on('INTERACTION_CREATE', async interaction => {

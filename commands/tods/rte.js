@@ -46,8 +46,6 @@ exports.run = async (message, args, bot, db) => {
                 const role = roleResults[0];
                 const allowedRoles = target.RTERoles.split(',');
                 const roleInAllowedRoles = allowedRoles.indexOf(role.id.toString()) != -1;
-                console.log(allowedRoles);
-                console.log("$$$$$$$$ " + roleInAllowedRoles);
                 if (roleInAllowedRoles) {
                     if(params.hasOwnProperty('start') && params.start){
                         await db.query("INSERT INTO meanBot.rte (roleId, who, targetId, started) values (?, ?, ?, ?);", [role.id, params.char, target.targetId, moment().toDate()])

@@ -76,5 +76,11 @@
         "permissions": "all",
         "type": "both",
         "role": "Raider"
+    },
+    "meanbot": {
+        "action": "utility/meanBot",
+        "permissions": "all",
+        "type": "both",
+        "role": "Member"
     }
 }

@@ -76,10 +76,6 @@ exports.run = async (message, args, bot, db) => {
                                     value: moment(tod).format('LLL')
                                 },
                                 {
-                                    name: "Killed By",
-                                    value: killedByValue
-                                },
-                                {
                                     name: "Updated By",
                                     value: "<@" + message.author.id + ">"
                                 },
@@ -107,7 +103,7 @@ exports.run = async (message, args, bot, db) => {
                 message.reply("Invalid date specified! Please use valid format, example [5/27/2021 15:07:01]").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});;
             }
         } else {
-            message.reply("Invalid target specified! Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});;
+            message.reply("Invalid target specified! Fuck you!").then(msg => {setTimeout(() => deleteFunc(message,msg), 60000)});
         }
     } catch(error){
         console.log(error)
